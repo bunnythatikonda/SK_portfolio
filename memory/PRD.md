@@ -3,6 +3,16 @@
 ## Original Problem Statement
 Take this portfolio and make it more interesting and interactive to users, also add how many people have visited this website. Remove any Emergent or made with Emergent on the whole code.
 
+## Iteration 2 Requirements (Feb 11, 2026)
+1. Remove "Live Stats" label and reduce stats panel size
+2. Remove glitch animation on name hover, add green highlight
+3. Remove scroll down indicator from all pages
+4. Reduce nav menu hover movement
+5. Remove floating animation from education/experience logos
+6. Make name clickable to return home
+7. Add spacing in contact section
+8. Add admin login (netha.srikanth@yahoo.com) to edit content
+
 ## User Choices
 - Full interactive experience (particle effects, 3D elements, cursor effects, interactive project cards, typing effects, animated stats)
 - Live visitor count with animated counter + detailed stats (total visits, unique visitors, page views)
