@@ -32,9 +32,9 @@ stats_collection = db["stats"]
 admin_collection = db["admin"]
 content_collection = db["content"]
 
-# Admin credentials
-ADMIN_EMAIL = "netha.srikanth@yahoo.com"
-ADMIN_PASSWORD = "$23Bunny09$"
+# Admin credentials from environment
+ADMIN_EMAIL = os.environ.get("ADMIN_EMAIL", "")
+ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "")
 
 # Initialize stats if not exists
 def init_stats():
@@ -211,7 +211,7 @@ async def update_about(about: AboutUpdate):
 @app.get("/api/content/education")
 async def get_education():
     """Get education items"""
-    items = list(content_collection.find({"section": "education"}, {"_id": 0}))
+    items = list(content_collection.find({"section": "education"}, {"_id": 0}).limit(50))
     return items
 
 @app.post("/api/content/education")
@@ -226,7 +226,7 @@ async def add_education(item: EducationItem):
 @app.get("/api/content/experience")
 async def get_experience():
     """Get experience items"""
-    items = list(content_collection.find({"section": "experience"}, {"_id": 0}))
+    items = list(content_collection.find({"section": "experience"}, {"_id": 0}).limit(50))
     return items
 
 @app.post("/api/content/experience")
@@ -241,7 +241,7 @@ async def add_experience(item: ExperienceItem):
 @app.get("/api/content/projects")
 async def get_projects():
     """Get project items"""
-    items = list(content_collection.find({"section": "projects"}, {"_id": 0}))
+    items = list(content_collection.find({"section": "projects"}, {"_id": 0}).limit(100))
     return items
 
 @app.post("/api/content/projects")
@@ -256,7 +256,7 @@ async def add_project(item: ProjectItem):
 @app.get("/api/content/skills")
 async def get_skills():
     """Get skill categories"""
-    items = list(content_collection.find({"section": "skills"}, {"_id": 0}))
+    items = list(content_collection.find({"section": "skills"}, {"_id": 0}).limit(50))
     return items
 
 @app.post("/api/content/skills")
