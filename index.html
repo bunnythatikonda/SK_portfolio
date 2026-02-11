@@ -336,11 +336,15 @@
 
     /* Contact section spacing */
     .contact .info-box {
-      margin-bottom: 20px;
+      margin-bottom: 25px;
     }
 
     .contact .row {
-      gap: 15px;
+      gap: 20px;
+    }
+
+    .contact .col-md-5 {
+      margin-bottom: 20px;
     }
 
     /* Admin login button */
@@ -1401,9 +1405,7 @@
       }
     };
 
-    // Admin Login System
-    const ADMIN_EMAIL = 'netha.srikanth@yahoo.com';
-    const ADMIN_PASSWORD = '$23Bunny09$';
+    // Admin Login System - Backend API only (no hardcoded credentials)
     let isLoggedIn = false;
 
     document.getElementById('admin-login-btn').addEventListener('click', () => {
@@ -1423,7 +1425,7 @@
       const email = document.getElementById('login-email').value;
       const password = document.getElementById('login-password').value;
       
-      // Try API login first
+      // Authenticate via backend API only
       try {
         const response = await fetch(`${API_BASE_URL}/api/admin/login`, {
           method: 'POST',
@@ -1443,15 +1445,7 @@
           }
         }
       } catch (error) {
-        // Fallback to local auth
-        if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-          isLoggedIn = true;
-          localStorage.setItem('admin_token', 'local_admin');
-          document.getElementById('login-modal').classList.remove('active');
-          document.getElementById('admin-panel').classList.add('active');
-          loadAdminData();
-          return;
-        }
+        console.log('Authentication failed');
       }
       
       document.getElementById('login-error').style.display = 'block';
