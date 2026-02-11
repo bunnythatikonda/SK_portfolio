@@ -18,15 +18,16 @@
           $(this).closest('li').addClass('active');
         }
 
+        // Always close mobile nav first when clicking any menu item
+        if ($('body').hasClass('mobile-nav-active')) {
+          $('body').removeClass('mobile-nav-active');
+          $('.mobile-nav-toggle i').removeClass('icofont-close').addClass('icofont-navigation-menu');
+          $('.mobile-nav-overly').fadeOut();
+        }
+
         if (hash == '#header') {
           $('#header').removeClass('header-top');
           $("section").removeClass('section-show');
-          // Close mobile nav when going home
-          if ($('body').hasClass('mobile-nav-active')) {
-            $('body').removeClass('mobile-nav-active');
-            $('.mobile-nav-toggle i').toggleClass('icofont-navigation-menu icofont-close');
-            $('.mobile-nav-overly').fadeOut();
-          }
           return;
         }
 
@@ -39,12 +40,6 @@
         } else {
           $("section").removeClass('section-show');
           $(hash).addClass('section-show');
-        }
-
-        if ($('body').hasClass('mobile-nav-active')) {
-          $('body').removeClass('mobile-nav-active');
-          $('.mobile-nav-toggle i').toggleClass('icofont-navigation-menu icofont-close');
-          $('.mobile-nav-overly').fadeOut();
         }
 
         return false;
