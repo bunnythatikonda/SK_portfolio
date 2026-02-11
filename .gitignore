@@ -1,4 +1,21 @@
--e 
-# Environment files
-*.env
-*.env.*
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# Node modules
+node_modules/
+
+# Build outputs
+build/
+dist/
+
+# IDE
+.idea/
+.vscode/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
