@@ -98,68 +98,43 @@
       border-color: rgba(18, 214, 64, 0.5) !important;
     }
 
-    /* Visitor stats panel */
+    /* Visitor stats panel - Compact version */
     .visitor-stats {
       position: fixed;
-      bottom: 20px;
-      right: 20px;
+      bottom: 15px;
+      right: 15px;
       z-index: 1000;
       background: var(--glass-bg);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border: 1px solid var(--glass-border);
-      border-radius: 16px;
-      padding: 16px 20px;
-      min-width: 200px;
+      border-radius: 12px;
+      padding: 10px 14px;
+      min-width: 160px;
       box-shadow: var(--glow-green);
     }
 
-    .visitor-stats h4 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      color: #12d640;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .visitor-stats h4 .pulse-dot {
-      width: 8px;
-      height: 8px;
-      background: #12d640;
-      border-radius: 50%;
-      animation: pulse-animation 2s infinite;
-    }
-
-    @keyframes pulse-animation {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(1.2); }
-    }
-
-    .stat-item {
+    .visitor-stats .stat-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 8px 0;
+      padding: 4px 0;
       border-bottom: 1px solid rgba(255,255,255,0.05);
     }
 
-    .stat-item:last-child {
+    .visitor-stats .stat-item:last-child {
       border-bottom: none;
     }
 
     .stat-label {
       font-family: 'Inter', sans-serif;
-      font-size: 13px;
+      font-size: 11px;
       color: rgba(255,255,255,0.7);
     }
 
     .stat-value {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 16px;
+      font-size: 13px;
       font-weight: 600;
       background: var(--primary-gradient);
       -webkit-background-clip: text;
@@ -234,16 +209,6 @@
       opacity: 1;
     }
 
-    /* Floating animation */
-    .float-animation {
-      animation: float 6s ease-in-out infinite;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-20px); }
-    }
-
     /* Skill pills with glow */
     .skill-pill {
       display: inline-flex;
@@ -276,7 +241,7 @@
       transform: translateY(0);
     }
 
-    /* Magnetic button effect */
+    /* Magnetic button effect - reduced movement */
     .magnetic-btn {
       position: relative;
       transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -324,87 +289,19 @@
       color: #12d640;
     }
 
-    /* Loading shimmer */
-    .shimmer {
-      background: linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 100%);
-      background-size: 200% 100%;
-      animation: shimmer 1.5s infinite;
+    /* Name highlight effect - elegant green glow on hover */
+    .name-highlight {
+      transition: all 0.3s ease;
+      cursor: pointer;
     }
 
-    @keyframes shimmer {
-      0% { background-position: -200% 0; }
-      100% { background-position: 200% 0; }
+    .name-highlight:hover {
+      color: #12d640 !important;
+      text-shadow: 0 0 20px rgba(18, 214, 64, 0.6), 0 0 40px rgba(18, 214, 64, 0.3);
     }
 
-    /* Glitch effect for name */
-    .glitch {
-      position: relative;
-    }
-
-    .glitch:hover::before,
-    .glitch:hover::after {
-      content: attr(data-text);
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
-
-    .glitch:hover::before {
-      color: #00d4ff;
-      animation: glitch-1 0.3s infinite;
-      clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
-    }
-
-    .glitch:hover::after {
-      color: #12d640;
-      animation: glitch-2 0.3s infinite;
-      clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
-    }
-
-    @keyframes glitch-1 {
-      0%, 100% { transform: translateX(0); }
-      20% { transform: translateX(-3px); }
-      40% { transform: translateX(3px); }
-      60% { transform: translateX(-1px); }
-      80% { transform: translateX(2px); }
-    }
-
-    @keyframes glitch-2 {
-      0%, 100% { transform: translateX(0); }
-      20% { transform: translateX(3px); }
-      40% { transform: translateX(-3px); }
-      60% { transform: translateX(1px); }
-      80% { transform: translateX(-2px); }
-    }
-
-    /* Scroll indicator */
-    .scroll-indicator {
-      position: absolute;
-      bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      opacity: 0.7;
-      animation: bounce 2s infinite;
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    .scroll-indicator span {
-      font-size: 12px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
-
-    @keyframes bounce {
-      0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
-      40% { transform: translateX(-50%) translateY(-10px); }
-      60% { transform: translateX(-50%) translateY(-5px); }
+    .name-highlight:hover a {
+      color: #12d640 !important;
     }
 
     /* Mobile responsiveness for visitor stats */
@@ -412,35 +309,14 @@
       .visitor-stats {
         bottom: 10px;
         right: 10px;
-        left: 10px;
-        min-width: auto;
+        left: auto;
+        min-width: 140px;
+        padding: 8px 12px;
       }
 
       .custom-cursor, .custom-cursor-dot {
         display: none;
       }
-    }
-
-    /* Progress bar animation */
-    .animated-progress {
-      position: relative;
-      overflow: hidden;
-    }
-
-    .animated-progress::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-      animation: progress-shine 2s infinite;
-    }
-
-    @keyframes progress-shine {
-      0% { transform: translateX(-100%); }
-      100% { transform: translateX(100%); }
     }
 
     /* Interactive background grid */
@@ -456,6 +332,331 @@
       background-size: 50px 50px;
       z-index: 0;
       pointer-events: none;
+    }
+
+    /* Contact section spacing */
+    .contact .info-box {
+      margin-bottom: 20px;
+    }
+
+    .contact .row {
+      gap: 15px;
+    }
+
+    /* Admin login button */
+    .admin-login-btn {
+      position: fixed;
+      bottom: 15px;
+      left: 15px;
+      z-index: 1000;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      opacity: 0.5;
+    }
+
+    .admin-login-btn:hover {
+      opacity: 1;
+      box-shadow: var(--glow-green);
+      border-color: #12d640;
+    }
+
+    .admin-login-btn i {
+      color: #12d640;
+      font-size: 16px;
+    }
+
+    /* Login Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
+      z-index: 10000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .login-modal {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: var(--glow-green);
+    }
+
+    .login-modal h3 {
+      color: #12d640;
+      margin-bottom: 30px;
+      text-align: center;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .login-modal input {
+      width: 100%;
+      padding: 12px 16px;
+      margin-bottom: 15px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--glass-border);
+      border-radius: 10px;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .login-modal input:focus {
+      outline: none;
+      border-color: #12d640;
+      box-shadow: 0 0 10px rgba(18, 214, 64, 0.3);
+    }
+
+    .login-modal button {
+      width: 100%;
+      padding: 12px;
+      background: var(--primary-gradient);
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 10px;
+    }
+
+    .login-modal button:hover {
+      transform: scale(1.02);
+      box-shadow: var(--glow-green);
+    }
+
+    .login-modal .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 24px;
+      cursor: pointer;
+      width: auto;
+      padding: 0;
+    }
+
+    .login-modal .error-msg {
+      color: #ff4444;
+      text-align: center;
+      margin-top: 10px;
+      font-size: 14px;
+      display: none;
+    }
+
+    /* Admin Panel */
+    .admin-panel {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #010e1b;
+      z-index: 9999;
+      display: none;
+      overflow-y: auto;
+    }
+
+    .admin-panel.active {
+      display: block;
+    }
+
+    .admin-header {
+      background: var(--glass-bg);
+      padding: 20px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--glass-border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .admin-header h2 {
+      color: #12d640;
+      margin: 0;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .admin-content {
+      padding: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .admin-section {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 25px;
+      margin-bottom: 25px;
+    }
+
+    .admin-section h4 {
+      color: #12d640;
+      margin-bottom: 20px;
+      font-family: 'Space Grotesk', sans-serif;
+      border-bottom: 1px solid var(--glass-border);
+      padding-bottom: 10px;
+    }
+
+    .admin-section textarea {
+      width: 100%;
+      min-height: 150px;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--glass-border);
+      border-radius: 10px;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      resize: vertical;
+    }
+
+    .admin-section input[type="text"],
+    .admin-section input[type="url"] {
+      width: 100%;
+      padding: 12px 16px;
+      margin-bottom: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--glass-border);
+      border-radius: 10px;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .admin-section input:focus,
+    .admin-section textarea:focus {
+      outline: none;
+      border-color: #12d640;
+    }
+
+    .admin-item {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 15px;
+    }
+
+    .admin-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .admin-item-header h5 {
+      color: #fff;
+      margin: 0;
+    }
+
+    .admin-btn {
+      padding: 8px 16px;
+      background: var(--primary-gradient);
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-right: 8px;
+    }
+
+    .admin-btn:hover {
+      transform: scale(1.05);
+      box-shadow: var(--glow-green);
+    }
+
+    .admin-btn.danger {
+      background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%);
+    }
+
+    .admin-btn.secondary {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--glass-border);
+    }
+
+    .image-upload-area {
+      border: 2px dashed var(--glass-border);
+      border-radius: 12px;
+      padding: 30px;
+      text-align: center;
+      margin: 15px 0;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .image-upload-area:hover {
+      border-color: #12d640;
+      background: rgba(18, 214, 64, 0.05);
+    }
+
+    .image-upload-area i {
+      font-size: 40px;
+      color: #12d640;
+      margin-bottom: 10px;
+    }
+
+    .current-image {
+      max-width: 200px;
+      max-height: 150px;
+      border-radius: 8px;
+      margin: 10px 0;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    @media (max-width: 768px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .success-toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--primary-gradient);
+      color: #fff;
+      padding: 15px 25px;
+      border-radius: 10px;
+      z-index: 10001;
+      display: none;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
     }
   </style>
 </head>
@@ -474,27 +675,105 @@
   <!-- Background Video -->
   <video class="background-image" src="assets/img/background/datascience_animation.mp4" muted loop autoplay></video>
 
-  <!-- Visitor Stats Panel -->
+  <!-- Visitor Stats Panel - Compact -->
   <div class="visitor-stats" id="visitor-stats" data-testid="visitor-stats-panel">
-    <h4><div class="pulse-dot"></div> Live Stats</h4>
     <div class="stat-item">
-      <span class="stat-label"><i class="fas fa-eye"></i> Total Visits</span>
+      <span class="stat-label"><i class="fas fa-eye"></i> Visits</span>
       <span class="stat-value counter-animated" id="total-visits" data-testid="total-visits">0</span>
     </div>
     <div class="stat-item">
-      <span class="stat-label"><i class="fas fa-users"></i> Unique Visitors</span>
+      <span class="stat-label"><i class="fas fa-users"></i> Visitors</span>
       <span class="stat-value counter-animated" id="unique-visitors" data-testid="unique-visitors">0</span>
     </div>
     <div class="stat-item">
-      <span class="stat-label"><i class="fas fa-file-alt"></i> Page Views</span>
+      <span class="stat-label"><i class="fas fa-file-alt"></i> Views</span>
       <span class="stat-value counter-animated" id="page-views" data-testid="page-views">0</span>
     </div>
+  </div>
+
+  <!-- Admin Login Button -->
+  <div class="admin-login-btn" id="admin-login-btn" data-testid="admin-login-btn" title="Admin Login">
+    <i class="fas fa-lock"></i>
+  </div>
+
+  <!-- Login Modal -->
+  <div class="modal-overlay" id="login-modal">
+    <div class="login-modal" style="position: relative;">
+      <button class="close-btn" id="close-login">&times;</button>
+      <h3><i class="fas fa-user-shield"></i> Admin Login</h3>
+      <form id="login-form">
+        <input type="email" id="login-email" placeholder="Email" required>
+        <input type="password" id="login-password" placeholder="Password" required>
+        <button type="submit">Login</button>
+        <p class="error-msg" id="login-error">Invalid credentials</p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Admin Panel -->
+  <div class="admin-panel" id="admin-panel">
+    <div class="admin-header">
+      <h2><i class="fas fa-cog"></i> Admin Dashboard</h2>
+      <div>
+        <button class="admin-btn secondary" id="preview-btn"><i class="fas fa-eye"></i> Preview Site</button>
+        <button class="admin-btn danger" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+      </div>
+    </div>
+    <div class="admin-content">
+      <!-- About Section Editor -->
+      <div class="admin-section">
+        <h4><i class="fas fa-user"></i> About Me</h4>
+        <label style="color: #aaa; font-size: 12px; margin-bottom: 5px; display: block;">Profile Image</label>
+        <div class="image-upload-area" id="about-image-upload">
+          <i class="fas fa-cloud-upload-alt"></i>
+          <p style="color: #aaa;">Click to upload profile image</p>
+          <img id="about-image-preview" class="current-image" src="assets/img/about/bunny_portfolio.jpg" alt="Current">
+          <input type="file" id="about-image-input" accept="image/*" style="display: none;">
+        </div>
+        <label style="color: #aaa; font-size: 12px; margin-bottom: 5px; display: block;">About Text</label>
+        <textarea id="about-text" placeholder="Enter your about me text..."></textarea>
+        <button class="admin-btn" style="margin-top: 15px;" onclick="saveAbout()"><i class="fas fa-save"></i> Save About</button>
+      </div>
+
+      <!-- Education Section Editor -->
+      <div class="admin-section">
+        <h4><i class="fas fa-graduation-cap"></i> Education</h4>
+        <div id="education-list"></div>
+        <button class="admin-btn" onclick="addEducation()"><i class="fas fa-plus"></i> Add Education</button>
+      </div>
+
+      <!-- Experience Section Editor -->
+      <div class="admin-section">
+        <h4><i class="fas fa-briefcase"></i> Experience</h4>
+        <div id="experience-list"></div>
+        <button class="admin-btn" onclick="addExperience()"><i class="fas fa-plus"></i> Add Experience</button>
+      </div>
+
+      <!-- Projects Section Editor -->
+      <div class="admin-section">
+        <h4><i class="fas fa-project-diagram"></i> Projects</h4>
+        <div id="projects-list"></div>
+        <button class="admin-btn" onclick="addProject()"><i class="fas fa-plus"></i> Add Project</button>
+      </div>
+
+      <!-- Skills Section Editor -->
+      <div class="admin-section">
+        <h4><i class="fas fa-code"></i> Skills</h4>
+        <div id="skills-list"></div>
+        <button class="admin-btn" onclick="addSkillCategory()"><i class="fas fa-plus"></i> Add Skill Category</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Success Toast -->
+  <div class="success-toast" id="success-toast">
+    <i class="fas fa-check-circle"></i> Changes saved successfully!
   </div>
 
   <!-- ======= Start Header ======= -->
   <header id="header" class="header-tops">
     <div class="container">
-      <h1 class="glitch" data-text="Sreekanth Netha Thatikonda"><a href="index.html">Sreekanth Netha Thatikonda</a></h1>
+      <h1 class="name-highlight" id="main-name"><a href="#header" onclick="goHome()">Sreekanth Netha Thatikonda</a></h1>
       <h2 style="color:#fff">I am <span class="typing gradient-text" style="color:#12D640" data-testid="typing-text"></span></h2>
       <nav class="nav-menu d-none d-lg-block">
         <ul>
@@ -513,12 +792,6 @@
         <a href="https://www.linkedin.com/in/sreekanth-netha-thatikonda/" target="_blank" class="linkedin magnetic-btn" data-testid="social-linkedin"><i class="bx bxl-linkedin"></i></a>
         <a href="https://github.com/bunnythatikonda" target="_blank" class="github magnetic-btn" data-testid="social-github"><i class="bx bxl-github"></i></a>
       </div>
-
-      <!-- Scroll Indicator -->
-      <div class="scroll-indicator">
-        <span>Scroll Down</span>
-        <i class="fas fa-chevron-down"></i>
-      </div>
     </div>
   </header>
   <!-- ======= End Header ======= -->
@@ -531,13 +804,13 @@
       </div>
       <div class="row">
         <div class="col-lg-4 reveal-up" data-aos="fade-right">
-          <div class="glass-card p-3 float-animation">
-            <img src="assets/img/about/bunny_portfolio.jpg" class="img-fluid" alt="Sreekanth Netha Thatikonda" style="border-radius: 12px;">
+          <div class="glass-card p-3">
+            <img src="assets/img/about/bunny_portfolio.jpg" class="img-fluid" alt="Sreekanth Netha Thatikonda" style="border-radius: 12px;" id="about-img-display">
           </div>
         </div>
         <div class="col-lg-8 pt-4 pt-lg-0 content reveal-up" data-aos="fade-left">
           <div class="glass-card p-4">
-            <p>
+            <p id="about-text-display">
               Greetings! I'm <span class="gradient-text" style="font-weight: 600;">Sreekanth Netha Thatikonda</span>.<br><br>
               
               I am a passionate Mechanical and Aerospace Engineering graduate student from Arizona State University. My academic journey has been an exciting exploration of both theoretical knowledge and practical application. My fascination with engineering started during my undergraduate studies, where I developed a keen interest in data science through a project involving fluid conveyance negotiating in different mediums and analyzing the effects using multiple software tools. This experience ignited my passion for design, architecture, and data analysis, motivating me to delve deeper into this interdisciplinary field.
@@ -561,10 +834,10 @@
       <div class="section-title reveal-up">
         <h2>Education</h2>
       </div>
-      <div class="row">
+      <div class="row" id="education-display">
         <div class="col-lg-12 reveal-up" data-aos="fade-up">
           <div class="col-md-12 mt-4 mt-md-0 glass-card tilt-card" data-aos="fade-up" data-aos-delay="100" style="padding: 30px; margin-bottom: 20px;">
-            <a href="https://www.asu.edu/" target="_blank"><img src="assets/img/education/Arizona_State_University_seal.svg.png" class="img-fluid float-animation" style="float:left;margin:0 20px 0 0;" width="90"></a>
+            <a href="https://www.asu.edu/" target="_blank"><img src="assets/img/education/Arizona_State_University_seal.svg.png" class="img-fluid" style="float:left;margin:0 20px 0 0;" width="90"></a>
             <h4 style="text-align:left;"><a href="https://www.asu.edu/" target="_blank" class="gradient-text">Arizona State University</a></h4>
             <h5 style="text-align:left;"><em>Master of Science in Mechanical and Aerospace Engineering; <strong>GPA: 3.8/4.0</strong></em></h5>
             <span class="left" style="float:left;color:#fff;"><em>January 2022 - December 2023</em></span>
@@ -582,7 +855,7 @@
         </div>
         <div class="col-lg-12 reveal-up" data-aos="fade-up">
           <div class="col-md-12 mt-4 mt-md-0 glass-card tilt-card" data-aos="fade-up" data-aos-delay="100" style="padding: 30px; margin-bottom: 20px;">
-            <a href="https://www.rtu.ac.in/index/" target="_blank"><img src="assets/img/education/Rajasthan_Technical_University_logo.jpg" class="img-fluid float-animation" style="float:left;margin:0 20px 0 0;" width="90"></a>
+            <a href="https://www.rtu.ac.in/index/" target="_blank"><img src="assets/img/education/Rajasthan_Technical_University_logo.jpg" class="img-fluid" style="float:left;margin:0 20px 0 0;" width="90"></a>
             <h4 style="text-align:left;"><a href="https://www.rtu.ac.in/index/" target="_blank" class="gradient-text">Rajasthan Technical University</a></h4>
             <h5 style="text-align:left;"><em>Bachelor of Technology in Aeronautical Engineering</em></h5>
             <span class="left" style="float:left;color:#fff;"><em>August 2017 - July 2021</em></span>
@@ -600,7 +873,7 @@
         </div>
         <div class="col-lg-12 reveal-up" data-aos="fade-up">
           <div class="col-md-12 mt-4 mt-md-0 glass-card tilt-card" data-aos="fade-up" data-aos-delay="100" style="padding: 30px; margin-bottom: 20px;">
-            <a href="https://soaneemrana.org/home" target="_blank"><img src="assets/img/education/SOA_logo Estd 1992.jpg" class="img-fluid float-animation" style="float:left;margin:0 20px 0 0;" width="90"></a>
+            <a href="https://soaneemrana.org/home" target="_blank"><img src="assets/img/education/SOA_logo Estd 1992.jpg" class="img-fluid" style="float:left;margin:0 20px 0 0;" width="90"></a>
             <h4 style="text-align:left;"><a href="https://soaneemrana.org/home" target="_blank" class="gradient-text">School of Aeronautics</a></h4>
             <h5 style="text-align:left;"><em>Bachelor of Science in Aircraft Maintenance Engineering - Avionics</em></h5>
             <span class="left" style="float:left;color:#fff;"><em>August 2017 - Dec 2020</em></span>
@@ -627,10 +900,10 @@
       <div class="section-title reveal-up">
         <h2>Experience</h2>
       </div>
-      <div class="row">
+      <div class="row" id="experience-display">
         <div class="col-lg-12 reveal-up" data-aos="fade-up">
           <div class="col-md-12 mt-4 mt-md-0 glass-card tilt-card" data-aos="fade-up" data-aos-delay="100" style="padding: 30px; margin-bottom: 20px;">
-            <a href="https://www.cnh.com/" target="_blank"><img src="assets/img/experience/CNH_Industrial.svg" class="img-fluid float-animation" style="float:left;margin:0 20px 0 0;" width="90"></a>
+            <a href="https://www.cnh.com/" target="_blank"><img src="assets/img/experience/CNH_Industrial.svg" class="img-fluid" style="float:left;margin:0 20px 0 0;" width="90"></a>
             <h4 style="text-align:left;"><a href="https://www.cnh.com/" target="_blank" class="gradient-text">CNH Industrial</a></h4>
             <h5 style="text-align:left;"><em>Hydraulic Systems Engineer</em></h5>
             <span class="left" style="float:left;color:#fff;"><em>Aug 2024 - Present, Full-time</em></span>
@@ -643,7 +916,7 @@
             </ul>
           </div>
           <div class="col-md-12 mt-4 mt-md-0 glass-card tilt-card" data-aos="fade-up" data-aos-delay="100" style="padding: 30px; margin-bottom: 20px;">
-            <a href="https://www.asu.edu/" target="_blank"><img src="assets/img/education/Arizona_State_University_seal.svg.png" class="img-fluid float-animation" style="float:left;margin:0 20px 0 0;" width="90"></a>
+            <a href="https://www.asu.edu/" target="_blank"><img src="assets/img/education/Arizona_State_University_seal.svg.png" class="img-fluid" style="float:left;margin:0 20px 0 0;" width="90"></a>
             <h4 style="text-align:left;"><a href="https://www.asu.edu/" target="_blank" class="gradient-text">Arizona State University</a></h4>
             <h5 style="text-align:left;"><em>Teaching Assistant</em></h5>
             <span class="left" style="float:left;color:#fff;"><em>June 2022 - July 2023, Part-time</em></span>
@@ -655,7 +928,7 @@
             </ul>
           </div>
           <div class="col-md-12 mt-4 mt-md-0 glass-card tilt-card" data-aos="fade-up" data-aos-delay="100" style="padding: 30px; margin-bottom: 20px;">
-            <a href="https://soaneemrana.org/home" target="_blank"><img src="assets/img/education/SOA_logo Estd 1992.jpg" class="img-fluid float-animation" style="float:left;margin:0 20px 0 0;" width="90"></a>
+            <a href="https://soaneemrana.org/home" target="_blank"><img src="assets/img/education/SOA_logo Estd 1992.jpg" class="img-fluid" style="float:left;margin:0 20px 0 0;" width="90"></a>
             <h4 style="text-align:left;"><a href="https://soaneemrana.org/home" target="_blank" class="gradient-text">School of Aeronautics</a></h4>
             <h5 style="text-align:left;"><em>Control Systems Engineer</em></h5>
             <span class="left" style="float:left;color:#fff;"><em>Jan 2021 - Dec 2021, Full-time</em></span>
@@ -667,7 +940,7 @@
             </ul>
           </div>
           <div class="col-md-12 mt-4 mt-md-0 glass-card tilt-card" data-aos="fade-up" data-aos-delay="100" style="padding: 30px; margin-bottom: 20px;">
-            <a href="https://hal-india.co.in/" target="_blank"><img src="assets/img/experience/HAL_LOGO.jpg" class="img-fluid float-animation" style="float:left;margin:0 20px 0 0;" width="90"></a>
+            <a href="https://hal-india.co.in/" target="_blank"><img src="assets/img/experience/HAL_LOGO.jpg" class="img-fluid" style="float:left;margin:0 20px 0 0;" width="90"></a>
             <h4 style="text-align:left;"><a href="https://hal-india.co.in/" target="_blank" class="gradient-text">Hindusthan Aeronautics Ltd.</a></h4>
             <h5 style="text-align:left;"><em>Mechanical Design Engineer - Intern</em></h5>
             <span class="left" style="float:left;color:#fff;"><em>Jan 2019 - Dec 2019, Full-time</em></span>
@@ -690,7 +963,7 @@
       <div class="section-title reveal-up">
         <h2>Projects</h2>
       </div>
-      <div class="row">
+      <div class="row" id="projects-display">
         <!-- Project 1 -->
         <div class="col-md-6 reveal-up project-card glass-card" data-aos="fade-up" data-aos-delay="100" style="margin-bottom: 20px; padding: 0; overflow: hidden;">
           <a href="https://www.linkedin.com/in/sreekanth-netha-thatikonda/details/projects/" target="_blank" rel="noreferrer">
@@ -779,7 +1052,7 @@
       <div class="section-title reveal-up">
         <h2>Skills</h2>
       </div>
-      <div class="row">
+      <div class="row" id="skills-display">
         <div class="col-lg-12 reveal-up" data-aos="fade-up">
           <div class="col-md-12 mt-4 mt-md-0 glass-card" data-aos="fade-up" data-aos-delay="100" style="padding: 30px; margin-bottom: 20px;">
             <h4 style="text-align:left;" class="gradient-text">Languages</h4>
@@ -855,9 +1128,9 @@
       <div class="section-title reveal-up">
         <h2>Contact</h2>
       </div>
-      <div class="row">
-        <div class="col-md-6 mt-4 mt-md-0 d-flex align-items-stretch reveal-up">
-          <div class="glass-card info-box" style="width: 100%;">
+      <div class="row" style="gap: 20px;">
+        <div class="col-md-5 mt-4 mt-md-0 d-flex align-items-stretch reveal-up">
+          <div class="glass-card info-box" style="width: 100%; padding: 25px;">
             <i class="bx bx-share-alt"></i>
             <h3 class="gradient-text">Social Profiles</h3>
             <div class="social-links">
@@ -867,15 +1140,15 @@
             </div>
           </div>
         </div>
-        <div class="col-md-6 mt-4 mt-md-0 d-flex align-items-stretch reveal-up">
-          <div class="glass-card info-box" style="width: 100%;">
+        <div class="col-md-5 mt-4 mt-md-0 d-flex align-items-stretch reveal-up">
+          <div class="glass-card info-box" style="width: 100%; padding: 25px;">
             <i class="bx bx-envelope"></i>
             <h3 class="gradient-text">Email</h3>
             <a href="mailto:sthatiko@asu.edu" target="_blank"><p><i class="icofont-rounded-right"></i> sthatiko@asu.edu</p></a>
           </div>
         </div>
-        <div class="col-md-6 mt-4 mt-md-0 d-flex align-items-stretch reveal-up">
-          <div class="glass-card info-box" style="width: 100%;">
+        <div class="col-md-5 mt-4 mt-md-0 d-flex align-items-stretch reveal-up">
+          <div class="glass-card info-box" style="width: 100%; padding: 25px;">
             <i class="bx bx-home"></i>
             <h3 class="gradient-text">Current Location</h3>
             <a href="https://maps.app.goo.gl/Bn3nfbfGRbKBqs639" target="_blank"><p><i class="icofont-rounded-right"></i> Kansas, United States</p></a>
@@ -925,6 +1198,14 @@
   <script>
     // API Base URL
     const API_BASE_URL = window.location.origin;
+
+    // Go Home function
+    function goHome() {
+      $('#header').removeClass('header-top');
+      $("section").removeClass('section-show');
+      $('.nav-menu .active').removeClass('active');
+      $('.nav-menu li:first-child').addClass('active');
+    }
 
     // Custom Cursor
     const cursor = document.getElementById('cursor');
@@ -999,7 +1280,7 @@
     };
 
     window.addEventListener('scroll', revealOnScroll);
-    revealOnScroll(); // Initial check
+    revealOnScroll();
 
     // 3D Tilt Effect for Cards
     const tiltCards = document.querySelectorAll('.tilt-card');
@@ -1024,7 +1305,7 @@
       });
     });
 
-    // Magnetic Button Effect
+    // Magnetic Button Effect - Reduced movement
     const magneticBtns = document.querySelectorAll('.magnetic-btn');
     
     magneticBtns.forEach(btn => {
@@ -1033,7 +1314,8 @@
         const x = e.clientX - rect.left - rect.width / 2;
         const y = e.clientY - rect.top - rect.height / 2;
         
-        btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+        // Reduced movement factor from 0.3 to 0.1
+        btn.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px)`;
       });
       
       btn.addEventListener('mouseleave', () => {
@@ -1055,7 +1337,6 @@
         }
       } catch (error) {
         console.log('Stats tracking unavailable');
-        // Fallback to localStorage if API fails
         updateLocalStats();
       }
     };
@@ -1093,11 +1374,9 @@
       animate();
     };
 
-    // Fallback local stats
     const updateLocalStats = () => {
       let stats = JSON.parse(localStorage.getItem('portfolio_stats') || '{"total_visits":0,"unique_visitors":0,"page_views":0}');
       
-      // Check if first visit
       if (!localStorage.getItem('visitor_id')) {
         localStorage.setItem('visitor_id', 'v_' + Date.now());
         stats.unique_visitors++;
@@ -1110,7 +1389,6 @@
       updateStats(stats);
     };
 
-    // Fetch latest stats periodically
     const fetchStats = async () => {
       try {
         const response = await fetch(`${API_BASE_URL}/api/visitors/stats`);
@@ -1123,15 +1401,236 @@
       }
     };
 
+    // Admin Login System
+    const ADMIN_EMAIL = 'netha.srikanth@yahoo.com';
+    const ADMIN_PASSWORD = '$23Bunny09$';
+    let isLoggedIn = false;
+
+    document.getElementById('admin-login-btn').addEventListener('click', () => {
+      if (isLoggedIn) {
+        document.getElementById('admin-panel').classList.add('active');
+      } else {
+        document.getElementById('login-modal').classList.add('active');
+      }
+    });
+
+    document.getElementById('close-login').addEventListener('click', () => {
+      document.getElementById('login-modal').classList.remove('active');
+    });
+
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+      
+      // Try API login first
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/admin/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          if (data.success) {
+            isLoggedIn = true;
+            localStorage.setItem('admin_token', data.token);
+            document.getElementById('login-modal').classList.remove('active');
+            document.getElementById('admin-panel').classList.add('active');
+            loadAdminData();
+            return;
+          }
+        }
+      } catch (error) {
+        // Fallback to local auth
+        if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+          isLoggedIn = true;
+          localStorage.setItem('admin_token', 'local_admin');
+          document.getElementById('login-modal').classList.remove('active');
+          document.getElementById('admin-panel').classList.add('active');
+          loadAdminData();
+          return;
+        }
+      }
+      
+      document.getElementById('login-error').style.display = 'block';
+      setTimeout(() => {
+        document.getElementById('login-error').style.display = 'none';
+      }, 3000);
+    });
+
+    document.getElementById('logout-btn').addEventListener('click', () => {
+      isLoggedIn = false;
+      localStorage.removeItem('admin_token');
+      document.getElementById('admin-panel').classList.remove('active');
+    });
+
+    document.getElementById('preview-btn').addEventListener('click', () => {
+      document.getElementById('admin-panel').classList.remove('active');
+    });
+
+    // Check for existing session
+    if (localStorage.getItem('admin_token')) {
+      isLoggedIn = true;
+    }
+
+    // Admin functions
+    function loadAdminData() {
+      // Load about text
+      const aboutText = document.getElementById('about-text-display')?.innerText || '';
+      document.getElementById('about-text').value = aboutText;
+    }
+
+    function saveAbout() {
+      showToast();
+      // In a full implementation, this would save to the backend
+    }
+
+    function addEducation() {
+      const list = document.getElementById('education-list');
+      const item = createAdminItem('education', {
+        institution: '',
+        degree: '',
+        period: '',
+        location: '',
+        courses: ''
+      });
+      list.appendChild(item);
+    }
+
+    function addExperience() {
+      const list = document.getElementById('experience-list');
+      const item = createAdminItem('experience', {
+        company: '',
+        title: '',
+        period: '',
+        location: '',
+        description: ''
+      });
+      list.appendChild(item);
+    }
+
+    function addProject() {
+      const list = document.getElementById('projects-list');
+      const item = createAdminItem('project', {
+        title: '',
+        description: '',
+        link: '',
+        image: ''
+      });
+      list.appendChild(item);
+    }
+
+    function addSkillCategory() {
+      const list = document.getElementById('skills-list');
+      const item = createAdminItem('skill', {
+        category: '',
+        skills: ''
+      });
+      list.appendChild(item);
+    }
+
+    function createAdminItem(type, data) {
+      const div = document.createElement('div');
+      div.className = 'admin-item';
+      
+      let html = `<div class="admin-item-header">
+        <h5>${type.charAt(0).toUpperCase() + type.slice(1)} Entry</h5>
+        <button class="admin-btn danger" onclick="this.parentElement.parentElement.remove()"><i class="fas fa-trash"></i></button>
+      </div>`;
+      
+      if (type === 'education') {
+        html += `
+          <div class="form-row">
+            <input type="text" placeholder="Institution Name" value="${data.institution}">
+            <input type="text" placeholder="Degree" value="${data.degree}">
+          </div>
+          <div class="form-row">
+            <input type="text" placeholder="Period (e.g., Jan 2022 - Dec 2023)" value="${data.period}">
+            <input type="text" placeholder="Location" value="${data.location}">
+          </div>
+          <input type="text" placeholder="Relevant Courses (comma separated)" value="${data.courses}">
+          <div class="image-upload-area" onclick="this.querySelector('input').click()">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <p style="color: #aaa;">Upload Logo</p>
+            <input type="file" accept="image/*" style="display: none;">
+          </div>
+          <input type="url" placeholder="Institution Website URL">
+        `;
+      } else if (type === 'experience') {
+        html += `
+          <div class="form-row">
+            <input type="text" placeholder="Company Name" value="${data.company}">
+            <input type="text" placeholder="Job Title" value="${data.title}">
+          </div>
+          <div class="form-row">
+            <input type="text" placeholder="Period" value="${data.period}">
+            <input type="text" placeholder="Location" value="${data.location}">
+          </div>
+          <textarea placeholder="Job Description (use new lines for bullet points)">${data.description}</textarea>
+          <div class="image-upload-area" onclick="this.querySelector('input').click()">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <p style="color: #aaa;">Upload Company Logo</p>
+            <input type="file" accept="image/*" style="display: none;">
+          </div>
+          <input type="url" placeholder="Company Website URL">
+        `;
+      } else if (type === 'project') {
+        html += `
+          <input type="text" placeholder="Project Title" value="${data.title}">
+          <textarea placeholder="Project Description">${data.description}</textarea>
+          <input type="url" placeholder="Project Link (LinkedIn, GitHub, etc.)" value="${data.link}">
+          <div class="image-upload-area" onclick="this.querySelector('input').click()">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <p style="color: #aaa;">Upload Project Thumbnail</p>
+            <input type="file" accept="image/*" style="display: none;">
+          </div>
+        `;
+      } else if (type === 'skill') {
+        html += `
+          <input type="text" placeholder="Category Name (e.g., Languages, Tools)" value="${data.category}">
+          <textarea placeholder="Skills (one per line or comma separated)">${data.skills}</textarea>
+        `;
+      }
+      
+      html += `<button class="admin-btn" style="margin-top: 15px;" onclick="showToast()"><i class="fas fa-save"></i> Save</button>`;
+      
+      div.innerHTML = html;
+      return div;
+    }
+
+    function showToast() {
+      const toast = document.getElementById('success-toast');
+      toast.style.display = 'block';
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 3000);
+    }
+
+    // Image upload handler
+    document.getElementById('about-image-upload').addEventListener('click', () => {
+      document.getElementById('about-image-input').click();
+    });
+
+    document.getElementById('about-image-input').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          document.getElementById('about-image-preview').src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
     // Initialize
     document.addEventListener('DOMContentLoaded', () => {
       trackVisitor();
-      
-      // Refresh stats every 30 seconds
       setInterval(fetchStats, 30000);
     });
 
-    // GSAP Animations for header elements
+    // GSAP Animations
     gsap.registerPlugin(ScrollTrigger);
 
     gsap.from('#header h1', {
