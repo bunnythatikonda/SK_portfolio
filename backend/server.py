@@ -5,10 +5,13 @@ from datetime import datetime, timezone
 import os
 from dotenv import load_dotenv
 import hashlib
+from pydantic import BaseModel
+from typing import Optional, List
+import secrets
 
 load_dotenv()
 
-app = FastAPI(title="Portfolio Visitor Tracker API")
+app = FastAPI(title="Portfolio API")
 
 # CORS
 app.add_middleware(
@@ -26,6 +29,12 @@ client = MongoClient(MONGO_URL)
 db = client[DB_NAME]
 visitors_collection = db["visitors"]
 stats_collection = db["stats"]
+admin_collection = db["admin"]
+content_collection = db["content"]
+
+# Admin credentials
+ADMIN_EMAIL = "netha.srikanth@yahoo.com"
+ADMIN_PASSWORD = "$23Bunny09$"
 
 # Initialize stats if not exists
 def init_stats():
@@ -47,6 +56,43 @@ def get_visitor_hash(request: Request):
     raw = f"{ip}:{user_agent}"
     return hashlib.md5(raw.encode()).hexdigest()
 
+# Pydantic models
+class LoginRequest(BaseModel):
+    email: str
+    password: str
+
+class AboutUpdate(BaseModel):
+    text: str
+    image_url: Optional[str] = None
+
+class EducationItem(BaseModel):
+    institution: str
+    degree: str
+    period: str
+    location: str
+    courses: List[str]
+    logo_url: Optional[str] = None
+    website_url: Optional[str] = None
+
+class ExperienceItem(BaseModel):
+    company: str
+    title: str
+    period: str
+    location: str
+    description: List[str]
+    logo_url: Optional[str] = None
+    website_url: Optional[str] = None
+
+class ProjectItem(BaseModel):
+    title: str
+    description: str
+    link: str
+    image_url: Optional[str] = None
+
+class SkillCategory(BaseModel):
+    category: str
+    skills: List[str]
+
 @app.get("/api/health")
 async def health_check():
     return {"status": "healthy", "timestamp": datetime.now(timezone.utc).isoformat()}
@@ -57,13 +103,10 @@ async def track_visitor(request: Request):
     visitor_hash = get_visitor_hash(request)
     now = datetime.now(timezone.utc).isoformat()
     
-    # Check if this is a unique visitor
     existing_visitor = visitors_collection.find_one({"hash": visitor_hash})
-    
     is_new_visitor = existing_visitor is None
     
     if is_new_visitor:
-        # New unique visitor
         visitors_collection.insert_one({
             "hash": visitor_hash,
             "first_visit": now,
@@ -81,7 +124,6 @@ async def track_visitor(request: Request):
             }
         )
     else:
-        # Returning visitor
         visitors_collection.update_one(
             {"hash": visitor_hash},
             {
@@ -94,7 +136,6 @@ async def track_visitor(request: Request):
             {"$inc": {"total_visits": 1, "page_views": 1}}
         )
     
-    # Get updated stats
     stats = stats_collection.find_one({"type": "global"}, {"_id": 0})
     
     return {
@@ -124,6 +165,108 @@ async def track_pageview():
     )
     stats = stats_collection.find_one({"type": "global"}, {"_id": 0})
     return {"success": True, "stats": stats}
+
+# Admin Authentication
+@app.post("/api/admin/login")
+async def admin_login(login: LoginRequest):
+    """Admin login endpoint"""
+    if login.email == ADMIN_EMAIL and login.password == ADMIN_PASSWORD:
+        token = secrets.token_hex(32)
+        admin_collection.update_one(
+            {"type": "session"},
+            {"$set": {"token": token, "created_at": datetime.now(timezone.utc).isoformat()}},
+            upsert=True
+        )
+        return {"success": True, "token": token}
+    return {"success": False, "message": "Invalid credentials"}
+
+@app.post("/api/admin/verify")
+async def verify_admin(request: Request):
+    """Verify admin token"""
+    auth_header = request.headers.get("Authorization", "")
+    if auth_header.startswith("Bearer "):
+        token = auth_header[7:]
+        session = admin_collection.find_one({"type": "session", "token": token})
+        if session:
+            return {"valid": True}
+    return {"valid": False}
+
+# Content Management Endpoints
+@app.get("/api/content/about")
+async def get_about():
+    """Get about section content"""
+    content = content_collection.find_one({"section": "about"}, {"_id": 0})
+    return content or {"text": "", "image_url": ""}
+
+@app.post("/api/content/about")
+async def update_about(about: AboutUpdate):
+    """Update about section"""
+    content_collection.update_one(
+        {"section": "about"},
+        {"$set": {"text": about.text, "image_url": about.image_url}},
+        upsert=True
+    )
+    return {"success": True}
+
+@app.get("/api/content/education")
+async def get_education():
+    """Get education items"""
+    items = list(content_collection.find({"section": "education"}, {"_id": 0}))
+    return items
+
+@app.post("/api/content/education")
+async def add_education(item: EducationItem):
+    """Add education item"""
+    content_collection.insert_one({
+        "section": "education",
+        **item.dict()
+    })
+    return {"success": True}
+
+@app.get("/api/content/experience")
+async def get_experience():
+    """Get experience items"""
+    items = list(content_collection.find({"section": "experience"}, {"_id": 0}))
+    return items
+
+@app.post("/api/content/experience")
+async def add_experience(item: ExperienceItem):
+    """Add experience item"""
+    content_collection.insert_one({
+        "section": "experience",
+        **item.dict()
+    })
+    return {"success": True}
+
+@app.get("/api/content/projects")
+async def get_projects():
+    """Get project items"""
+    items = list(content_collection.find({"section": "projects"}, {"_id": 0}))
+    return items
+
+@app.post("/api/content/projects")
+async def add_project(item: ProjectItem):
+    """Add project item"""
+    content_collection.insert_one({
+        "section": "projects",
+        **item.dict()
+    })
+    return {"success": True}
+
+@app.get("/api/content/skills")
+async def get_skills():
+    """Get skill categories"""
+    items = list(content_collection.find({"section": "skills"}, {"_id": 0}))
+    return items
+
+@app.post("/api/content/skills")
+async def add_skill_category(item: SkillCategory):
+    """Add skill category"""
+    content_collection.insert_one({
+        "section": "skills",
+        **item.dict()
+    })
+    return {"success": True}
 
 if __name__ == "__main__":
     import uvicorn
