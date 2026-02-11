@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="icon" type="image/png" href="/favicon.png"/>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Sreekanth Netha Thatikonda</title>
+  <meta content="Mechanical and Aerospace Engineer | Hydraulics Systems Expert" name="description">
+  <meta content="engineer, portfolio, mechanical, aerospace, hydraulics" name="keywords">
+
+  <!-- Google Fonts - Modern Selection -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/icofont/icofont.min.css" rel="stylesheet">
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="assets/vendor/owl.carousel/assets/owl.carousel.min.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/venobox/venobox.css" rel="stylesheet">
+
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- GSAP for animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js"></script>
+
+  <!-- Particles.js -->
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary-gradient: linear-gradient(135deg, #12d640 0%, #00d4ff 100%);
+      --glass-bg: rgba(9, 32, 58, 0.7);
+      --glass-border: rgba(18, 214, 64, 0.2);
+      --glow-green: 0 0 20px rgba(18, 214, 64, 0.4);
+      --glow-cyan: 0 0 20px rgba(0, 212, 255, 0.4);
+    }
+
+    /* Custom cursor */
+    .custom-cursor {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #12d640;
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 99999;
+      transition: transform 0.1s, opacity 0.1s;
+      mix-blend-mode: difference;
+    }
+
+    .custom-cursor-dot {
+      width: 6px;
+      height: 6px;
+      background: #12d640;
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 99999;
+    }
+
+    .custom-cursor.hover {
+      transform: scale(2);
+      background: rgba(18, 214, 64, 0.1);
+    }
+
+    /* Particles container */
+    #particles-js {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Glassmorphism cards */
+    .glass-card {
+      background: var(--glass-bg) !important;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border) !important;
+      border-radius: 16px !important;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .glass-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: var(--glow-green), 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      border-color: rgba(18, 214, 64, 0.5) !important;
+    }
+
+    /* Visitor stats panel */
+    .visitor-stats {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 16px 20px;
+      min-width: 200px;
+      box-shadow: var(--glow-green);
+    }
+
+    .visitor-stats h4 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #12d640;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .visitor-stats h4 .pulse-dot {
+      width: 8px;
+      height: 8px;
+      background: #12d640;
+      border-radius: 50%;
+      animation: pulse-animation 2s infinite;
+    }
+
+    @keyframes pulse-animation {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.2); }
+    }
+
+    .stat-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .stat-item:last-child {
+      border-bottom: none;
+    }
+
+    .stat-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: rgba(255,255,255,0.7);
+    }
+
+    .stat-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 16px;
+      font-weight: 600;
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Animated gradient text */
+    .gradient-text {
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      background-size: 200% 200%;
+      animation: gradient-shift 3s ease infinite;
+    }
+
+    @keyframes gradient-shift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    /* Enhanced typing cursor */
+    .typing::after {
+      content: '|';
+      animation: blink 0.7s infinite;
+      color: #12d640;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* Project card enhancements */
+    .project-card {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(18, 214, 64, 0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .project-card:hover::before {
+      left: 100%;
+    }
+
+    .project-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(180deg, transparent 0%, rgba(9, 32, 58, 0.95) 100%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      display: flex;
+      align-items: flex-end;
+      padding: 20px;
+    }
+
+    .project-card:hover .project-overlay {
+      opacity: 1;
+    }
+
+    /* Floating animation */
+    .float-animation {
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+
+    /* Skill pills with glow */
+    .skill-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 16px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 50px;
+      margin: 4px;
+      transition: all 0.3s;
+      font-size: 14px;
+    }
+
+    .skill-pill:hover {
+      background: rgba(18, 214, 64, 0.15);
+      border-color: #12d640;
+      box-shadow: var(--glow-green);
+      transform: scale(1.05);
+    }
+
+    /* Section reveal animation */
+    .reveal-up {
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .reveal-up.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Magnetic button effect */
+    .magnetic-btn {
+      position: relative;
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    /* Enhanced social links */
+    .social-links a {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .social-links a::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: var(--primary-gradient);
+      border-radius: 50%;
+      transition: all 0.4s;
+      transform: translate(-50%, -50%);
+      z-index: -1;
+    }
+
+    .social-links a:hover::before {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* 3D tilt effect for cards */
+    .tilt-card {
+      transform-style: preserve-3d;
+      transition: transform 0.5s;
+    }
+
+    /* Counter animation styles */
+    .counter-animated {
+      display: inline-block;
+      transition: all 0.3s;
+    }
+
+    .counter-animated.updating {
+      transform: scale(1.2);
+      color: #12d640;
+    }
+
+    /* Loading shimmer */
+    .shimmer {
+      background: linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 100%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    /* Glitch effect for name */
+    .glitch {
+      position: relative;
+    }
+
+    .glitch:hover::before,
+    .glitch:hover::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .glitch:hover::before {
+      color: #00d4ff;
+      animation: glitch-1 0.3s infinite;
+      clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+    }
+
+    .glitch:hover::after {
+      color: #12d640;
+      animation: glitch-2 0.3s infinite;
+      clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+    }
+
+    @keyframes glitch-1 {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-3px); }
+      40% { transform: translateX(3px); }
+      60% { transform: translateX(-1px); }
+      80% { transform: translateX(2px); }
+    }
+
+    @keyframes glitch-2 {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(3px); }
+      40% { transform: translateX(-3px); }
+      60% { transform: translateX(1px); }
+      80% { transform: translateX(-2px); }
+    }
+
+    /* Scroll indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 0.7;
+      animation: bounce 2s infinite;
+    }
+
+    .scroll-indicator span {
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+      40% { transform: translateX(-50%) translateY(-10px); }
+      60% { transform: translateX(-50%) translateY(-5px); }
+    }
+
+    /* Mobile responsiveness for visitor stats */
+    @media (max-width: 768px) {
+      .visitor-stats {
+        bottom: 10px;
+        right: 10px;
+        left: 10px;
+        min-width: auto;
+      }
+
+      .custom-cursor, .custom-cursor-dot {
+        display: none;
+      }
+    }
+
+    /* Progress bar animation */
+    .animated-progress {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .animated-progress::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      animation: progress-shine 2s infinite;
+    }
+
+    @keyframes progress-shine {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    /* Interactive background grid */
+    .bg-grid {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(rgba(18, 214, 64, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(18, 214, 64, 0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      z-index: 0;
+      pointer-events: none;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Custom Cursor -->
+  <div class="custom-cursor" id="cursor"></div>
+  <div class="custom-cursor-dot" id="cursor-dot"></div>
+
+  <!-- Particles Background -->
+  <div id="particles-js"></div>
+
+  <!-- Background Grid -->
+  <div class="bg-grid"></div>
+
+  <!-- Background Video -->
+  <video class="background-image" src="assets/img/background/datascience_animation.mp4" muted loop autoplay></video>
+
+  <!-- Visitor Stats Panel -->
+  <div class="visitor-stats" id="visitor-stats" data-testid="visitor-stats-panel">
+    <h4><div class="pulse-dot"></div> Live Stats</h4>
+    <div class="stat-item">
+      <span class="stat-label"><i class="fas fa-eye"></i> Total Visits</span>
+      <span class="stat-value counter-animated" id="total-visits" data-testid="total-visits">0</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label"><i class="fas fa-users"></i> Unique Visitors</span>
+      <span class="stat-value counter-animated" id="unique-visitors" data-testid="unique-visitors">0</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label"><i class="fas fa-file-alt"></i> Page Views</span>
+      <span class="stat-value counter-animated" id="page-views" data-testid="page-views">0</span>
+    </div>
+  </div>
+
+  <!-- ======= Start Header ======= -->
+  <header id="header" class="header-tops">
+    <div class="container">
+      <h1 class="glitch" data-text="Sreekanth Netha Thatikonda"><a href="index.html">Sreekanth Netha Thatikonda</a></h1>
+      <h2 style="color:#fff">I am <span class="typing gradient-text" style="color:#12D640" data-testid="typing-text"></span></h2>
+      <nav class="nav-menu d-none d-lg-block">
+        <ul>
+          <li class="active"><a href="#header" class="magnetic-btn"><span>Home</span></a></li>
+          <li><a href="#about" class="magnetic-btn"><span>About</span></a></li>
+          <li><a href="#education" class="magnetic-btn"><span>Education</span></a></li>
+          <li><a href="#experience" class="magnetic-btn"><span>Experience</span></a></li>
+          <li><a href="#projects" class="magnetic-btn"><span>Projects</span></a></li>
+          <li><a href="#skills" class="magnetic-btn"><span>Skills</span></a></li>
+          <li><a href="assets/resume/RESUME.pdf" target="_blank" class="magnetic-btn"><span>Resume</span></a></li>
+          <li><a href="#contact" class="magnetic-btn"><span>Contact</span></a></li>
+        </ul>
+      </nav>
+      <div class="social-links">
+        <a href="mailto:sthatiko@asu.edu" target="_blank" class="gmail magnetic-btn" data-testid="social-gmail"><i class="bx bxl-google"></i></a>
+        <a href="https://www.linkedin.com/in/sreekanth-netha-thatikonda/" target="_blank" class="linkedin magnetic-btn" data-testid="social-linkedin"><i class="bx bxl-linkedin"></i></a>
+        <a href="https://github.com/bunnythatikonda" target="_blank" class="github magnetic-btn" data-testid="social-github"><i class="bx bxl-github"></i></a>
+      </div>
+
+      <!-- Scroll Indicator -->
+      <div class="scroll-indicator">
+        <span>Scroll Down</span>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+    </div>
+  </header>
+  <!-- ======= End Header ======= -->
+
+  <!-- ======= Start About Section ======= -->
+  <section id="about" class="about">
+    <div class="about-me container">
+      <div class="section-title reveal-up">
+        <h2>About Me</h2>
+      </div>
+      <div class="row">
+        <div class="col-lg-4 reveal-up" data-aos="fade-right">
+          <div class="glass-card p-3 float-animation">
+            <img src="assets/img/about/bunny_portfolio.jpg" class="img-fluid" alt="Sreekanth Netha Thatikonda" style="border-radius: 12px;">
+          </div>
+        </div>
+        <div class="col-lg-8 pt-4 pt-lg-0 content reveal-up" data-aos="fade-left">
+          <div class="glass-card p-4">
+            <p>
+              Greetings! I'm <span class="gradient-text" style="font-weight: 600;">Sreekanth Netha Thatikonda</span>.<br><br>
+              
+              I am a passionate Mechanical and Aerospace Engineering graduate student from Arizona State University. My academic journey has been an exciting exploration of both theoretical knowledge and practical application. My fascination with engineering started during my undergraduate studies, where I developed a keen interest in data science through a project involving fluid conveyance negotiating in different mediums and analyzing the effects using multiple software tools. This experience ignited my passion for design, architecture, and data analysis, motivating me to delve deeper into this interdisciplinary field.
+              <br><br>
+              I have honed my skills in various programming languages such as <span class="gradient-text">Python, R, and MATLAB</span>, along with proficiency in design, simulation, and system tools. My professional experience includes working as a Hydraulics Systems Engineer at CNH Industrial, where I have been involved in the design, development, and detailing of hydraulic and pneumatic components and systems for skid steers and compact track loaders.
+              <br><br>
+              As a Graduate Teaching Assistant at Arizona State University, I have supported advanced topics in science, programming languages, and design, helping students navigate complex subjects and practical applications.
+              <br><br>
+              I am eager to leverage my engineering expertise to further my professional growth. I am excited to take on new challenges, implement innovative solutions, and contribute meaningfully to a dynamic team.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- ======= End About Section ======= -->
+
+  <!-- ======= Start Education Section ======= -->
+  <section id="education" class="services">
+    <div class="container">
+      <div class="section-title reveal-up">
+        <h2>Education</h2>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 reveal-up" data-aos="fade-up">
+          <div class="col-md-12 mt-4 mt-md-0 glass-card tilt-card" data-aos="fade-up" data-aos-delay="100" style="padding: 30px; margin-bottom: 20px;">
+            <a href="https://www.asu.edu/" target="_blank"><img src="assets/img/education/Arizona_State_University_seal.svg.png" class="img-fluid float-animation" style="float:left;margin:0 20px 0 0;" width="90"></a>
+            <h4 style="text-align:left;"><a href="https://www.asu.edu/" target="_blank" class="gradient-text">Arizona State University</a></h4>
+            <h5 style="text-align:left;"><em>Master of Science in Mechanical and Aerospace Engineering; <strong>GPA: 3.8/4.0</strong></em></h5>
+            <span class="left" style="float:left;color:#fff;"><em>January 2022 - December 2023</em></span>
+            <span class="right" style="float:right;color:#fff;"><em>Arizona, United States</em></span><br><br>
+            <h6 style="text-align:left;"><strong>Relevant Coursework:</strong></h6>
+            <div style="text-align:left;">
+              <span class="skill-pill">Design</span>
+              <span class="skill-pill">System Modelling</span>
+              <span class="skill-pill">Control Systems</span>
+              <span class="skill-pill">Machine Learning</span>
+              <span class="skill-pill">Vehicle Dynamics</span>
+              <span class="skill-pill">Data Visualization</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-12 reveal-up" data-aos="fade-up">
+          <div class="col-md-12 mt-4 mt-md-0 glass-card tilt-card" data-aos="fade-up" data-aos-delay="100" style="padding: 30px; margin-bottom: 20px;">
+            <a href="https://www.rtu.ac.in/index/" target="_blank"><img src="assets/img/education/Rajasthan_Technical_University_logo.jpg" class="img-fluid float-animation" style="float:left;margin:0 20px 0 0;" width="90"></a>
+            <h4 style="text-align:left;"><a href="https://www.rtu.ac.in/index/" target="_blank" class="gradient-text">Rajasthan Technical University</a></h4>
+            <h5 style="text-align:left;"><em>Bachelor of Technology in Aeronautical Engineering</em></h5>
+            <span class="left" style="float:left;color:#fff;"><em>August 2017 - July 2021</em></span>
+            <span class="right" style="float:right;color:#fff;"><em>Rajasthan, India</em></span><br><br>
+            <h6 style="text-align:left;"><strong>Relevant Coursework:</strong></h6>
+            <div style="text-align:left;">
+              <span class="skill-pill">Design Modelling</span>
+              <span class="skill-pill">Fluid Mechanics</span>
+              <span class="skill-pill">Aircraft Systems</span>
+              <span class="skill-pill">Computer Programming</span>
+              <span class="skill-pill">Aerodynamics</span>
+              <span class="skill-pill">Aircraft Structures</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-12 reveal-up" data-aos="fade-up">
+          <div class="col-md-12 mt-4 mt-md-0 glass-card tilt-card" data-aos="fade-up" data-aos-delay="100" style="padding: 30px; margin-bottom: 20px;">
+            <a href="https://soaneemrana.org/home" target="_blank"><img src="assets/img/education/SOA_logo Estd 1992.jpg" class="img-fluid float-animation" style="float:left;margin:0 20px 0 0;" width="90"></a>
+            <h4 style="text-align:left;"><a href="https://soaneemrana.org/home" target="_blank" class="gradient-text">School of Aeronautics</a></h4>
+            <h5 style="text-align:left;"><em>Bachelor of Science in Aircraft Maintenance Engineering - Avionics</em></h5>
+            <span class="left" style="float:left;color:#fff;"><em>August 2017 - Dec 2020</em></span>
+            <span class="right" style="float:right;color:#fff;"><em>Rajasthan, India</em></span><br><br>
+            <h6 style="text-align:left;"><strong>Relevant Coursework:</strong></h6>
+            <div style="text-align:left;">
+              <span class="skill-pill">Electronics Module 5</span>
+              <span class="skill-pill">Materials and Hardware</span>
+              <span class="skill-pill">Aircraft Systems</span>
+              <span class="skill-pill">Digital Techniques</span>
+              <span class="skill-pill">Propulsion</span>
+              <span class="skill-pill">Maintenance Practices</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- ======= End Education Section ======= -->
+
+  <!-- ======= Start Experience Section ======= -->
+  <section id="experience" class="services">
+    <div class="container">
+      <div class="section-title reveal-up">
+        <h2>Experience</h2>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 reveal-up" data-aos="fade-up">
+          <div class="col-md-12 mt-4 mt-md-0 glass-card tilt-card" data-aos="fade-up" data-aos-delay="100" style="padding: 30px; margin-bottom: 20px;">
+            <a href="https://www.cnh.com/" target="_blank"><img src="assets/img/experience/CNH_Industrial.svg" class="img-fluid float-animation" style="float:left;margin:0 20px 0 0;" width="90"></a>
+            <h4 style="text-align:left;"><a href="https://www.cnh.com/" target="_blank" class="gradient-text">CNH Industrial</a></h4>
+            <h5 style="text-align:left;"><em>Hydraulic Systems Engineer</em></h5>
+            <span class="left" style="float:left;color:#fff;"><em>Aug 2024 - Present, Full-time</em></span>
+            <span class="right" style="float:right;color:#fff;"><em>Kansas, United States</em></span><br><br>
+            <ul style="text-align:left;">
+              <li>Working on design, development, and detailing of Hydraulic and pneumatic components and systems for Skid Steers and Compact Track Loaders.</li>
+              <li>Generate innovative SSL/CTL hydraulic system design for CPM and Next Gen to enhance vehicle performance, customer value, and cost reduction.</li>
+              <li>Creating engineering specifications, work closely with suppliers, and adhere to engineering standards and CNHi GPD processes.</li>
+              <li>Experience working with Creo, TeamCenter, Automation Studios, AmeSim software's to develop hydraulic system designs, layouts, modelling, and simulations.</li>
+            </ul>
+          </div>
+          <div class="col-md-12 mt-4 mt-md-0 glass-card tilt-card" data-aos="fade-up" data-aos-delay="100" style="padding: 30px; margin-bottom: 20px;">
+            <a href="https://www.asu.edu/" target="_blank"><img src="assets/img/education/Arizona_State_University_seal.svg.png" class="img-fluid float-animation" style="float:left;margin:0 20px 0 0;" width="90"></a>
+            <h4 style="text-align:left;"><a href="https://www.asu.edu/" target="_blank" class="gradient-text">Arizona State University</a></h4>
+            <h5 style="text-align:left;"><em>Teaching Assistant</em></h5>
+            <span class="left" style="float:left;color:#fff;"><em>June 2022 - July 2023, Part-time</em></span>
+            <span class="right" style="float:right;color:#fff;"><em>Arizona, United States</em></span><br><br>
+            <ul style="text-align:left;">
+              <li>Working as an Assistant Professor for Physics Lecture, Laboratory and played a pivotal role in instructing engineering and medical students.</li>
+              <li>TA for Engineering Mechanics I: Statics and Dynamics</li>
+              <li>Teaching students and grading exams for the concepts of Force systems, resultants, equilibrium using MATLAB.</li>
+            </ul>
+          </div>
+          <div class="col-md-12 mt-4 mt-md-0 glass-card tilt-card" data-aos="fade-up" data-aos-delay="100" style="padding: 30px; margin-bottom: 20px;">
+            <a href="https://soaneemrana.org/home" target="_blank"><img src="assets/img/education/SOA_logo Estd 1992.jpg" class="img-fluid float-animation" style="float:left;margin:0 20px 0 0;" width="90"></a>
+            <h4 style="text-align:left;"><a href="https://soaneemrana.org/home" target="_blank" class="gradient-text">School of Aeronautics</a></h4>
+            <h5 style="text-align:left;"><em>Control Systems Engineer</em></h5>
+            <span class="left" style="float:left;color:#fff;"><em>Jan 2021 - Dec 2021, Full-time</em></span>
+            <span class="right" style="float:right;color:#fff;"><em>Rajasthan, India</em></span><br><br>
+            <ul style="text-align:left;">
+              <li>Compliance with GD&T specifications, Designing, V&V testing and verification of mechanical and electrical systems using CAD Software's.</li>
+              <li>Work Closely with the mechanical design and manufacturing team to develop and modify parts for gear drives.</li>
+              <li>Performed inspections, diagnostics, and repair activities for mechanical and electrical designs.</li>
+            </ul>
+          </div>
+          <div class="col-md-12 mt-4 mt-md-0 glass-card tilt-card" data-aos="fade-up" data-aos-delay="100" style="padding: 30px; margin-bottom: 20px;">
+            <a href="https://hal-india.co.in/" target="_blank"><img src="assets/img/experience/HAL_LOGO.jpg" class="img-fluid float-animation" style="float:left;margin:0 20px 0 0;" width="90"></a>
+            <h4 style="text-align:left;"><a href="https://hal-india.co.in/" target="_blank" class="gradient-text">Hindusthan Aeronautics Ltd.</a></h4>
+            <h5 style="text-align:left;"><em>Mechanical Design Engineer - Intern</em></h5>
+            <span class="left" style="float:left;color:#fff;"><em>Jan 2019 - Dec 2019, Full-time</em></span>
+            <span class="right" style="float:right;color:#fff;"><em>Bangalore, India</em></span><br><br>
+            <ul style="text-align:left;">
+              <li>Designed and Manufactured ALH DHRUV, CHETAK vehicle components of Helicopters according to EASA DGCA CAR PART 121 and 145 regulations.</li>
+              <li>Designing and testing to validate structural designs of aircraft structures and FEA analysis via CAD software's.</li>
+              <li>Expertly disassembled, inspected, repaired, and reassembled Auxiliary Power Units and airframe components.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- ======= End Experience Section ======= -->
+
+  <!-- ======= Start Projects Section ======= -->
+  <section id="projects" class="services">
+    <div class="container">
+      <div class="section-title reveal-up">
+        <h2>Projects</h2>
+      </div>
+      <div class="row">
+        <!-- Project 1 -->
+        <div class="col-md-6 reveal-up project-card glass-card" data-aos="fade-up" data-aos-delay="100" style="margin-bottom: 20px; padding: 0; overflow: hidden;">
+          <a href="https://www.linkedin.com/in/sreekanth-netha-thatikonda/details/projects/" target="_blank" rel="noreferrer">
+            <img src="assets/img/projects/powertrain.jpg" class="img-fluid" alt="Powertrain System" style="width: 100%; height: 200px; object-fit: cover;">
+            <div class="project-overlay">
+              <div>
+                <h5 class="gradient-text"><strong>Adaptive Powertrain System Design</strong></h5>
+                <p style="font-size: 14px;">Advanced adaptive powertrain system using Python, Simulink, and MATLAB, with custom hardware interfaces.</p>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <!-- Project 2 -->
+        <div class="col-md-6 reveal-up project-card glass-card" data-aos="fade-up" data-aos-delay="200" style="margin-bottom: 20px; padding: 0; overflow: hidden;">
+          <a href="https://www.linkedin.com/in/sreekanth-netha-thatikonda/details/projects/" target="_blank" rel="noreferrer">
+            <img src="assets/img/projects/SBW.jpg" class="img-fluid" alt="Steer-by-Wire" style="width: 100%; height: 200px; object-fit: cover;">
+            <div class="project-overlay">
+              <div>
+                <h5 class="gradient-text"><strong>Steer-by-Wire System Design</strong></h5>
+                <p style="font-size: 14px;">SBW system model with advanced control techniques and co-simulation with CARSIM.</p>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <!-- Project 3 -->
+        <div class="col-md-4 reveal-up project-card glass-card" data-aos="fade-up" data-aos-delay="300" style="margin-bottom: 20px; padding: 0; overflow: hidden;">
+          <a href="https://www.linkedin.com/in/sreekanth-netha-thatikonda/details/projects/" target="_blank" rel="noreferrer">
+            <img src="assets/img/projects/Design_Simulation.jpg" class="img-fluid" alt="Design Simulations" style="width: 100%; height: 180px; object-fit: cover;">
+            <div class="project-overlay">
+              <div>
+                <h5 class="gradient-text"><strong>Design Simulations</strong></h5>
+                <p style="font-size: 13px;">Geospatial data analysis from wind turbines using Python and MATLAB.</p>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <!-- Project 4 -->
+        <div class="col-md-4 reveal-up project-card glass-card" data-aos="fade-up" data-aos-delay="400" style="margin-bottom: 20px; padding: 0; overflow: hidden;">
+          <a href="https://www.linkedin.com/in/sreekanth-netha-thatikonda/details/projects/" target="_blank" rel="noreferrer">
+            <img src="assets/img/projects/HVAC.jpg" class="img-fluid" alt="HVAC Design" style="width: 100%; height: 180px; object-fit: cover;">
+            <div class="project-overlay">
+              <div>
+                <h5 class="gradient-text"><strong>Analyzing HVAC Designs</strong></h5>
+                <p style="font-size: 13px;">Fluidic thrust vector control nozzles using ANSYS and advanced CFD analysis.</p>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <!-- Project 5 -->
+        <div class="col-md-4 reveal-up project-card glass-card" data-aos="fade-up" data-aos-delay="500" style="margin-bottom: 20px; padding: 0; overflow: hidden;">
+          <a href="https://www.linkedin.com/in/sreekanth-netha-thatikonda/details/projects/" target="_blank" rel="noreferrer">
+            <img src="assets/img/projects/PID.png" class="img-fluid" alt="Power Optimization" style="width: 100%; height: 180px; object-fit: cover;">
+            <div class="project-overlay">
+              <div>
+                <h5 class="gradient-text"><strong>Power Optimization via Feed forward</strong></h5>
+                <p style="font-size: 13px;">HVAC analysis using AutoCAD, Ansys Fluent for heat transfer efficiency.</p>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <!-- Project 6 -->
+        <div class="col-md-6 reveal-up project-card glass-card" data-aos="fade-up" data-aos-delay="600" style="margin-bottom: 20px; padding: 0; overflow: hidden;">
+          <a href="https://www.linkedin.com/in/sreekanth-netha-thatikonda/details/projects/" target="_blank" rel="noreferrer">
+            <img src="assets/img/projects/FTVC.PNG" class="img-fluid" alt="Fluidic Thrust Vector Control" style="width: 100%; height: 200px; object-fit: cover;">
+            <div class="project-overlay">
+              <div>
+                <h5 class="gradient-text"><strong>Fluidic Thrust Vector Control</strong></h5>
+                <p style="font-size: 14px;">Developed fluidic thrust vector control technology achieving 12.4-degree deflection using ANSYS, CFX, CATIA, and SolidWorks.</p>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- ======= End Projects Section ======= -->
+
+  <!-- Start Skills Section -->
+  <section id="skills" class="services">
+    <div class="container">
+      <div class="section-title reveal-up">
+        <h2>Skills</h2>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 reveal-up" data-aos="fade-up">
+          <div class="col-md-12 mt-4 mt-md-0 glass-card" data-aos="fade-up" data-aos-delay="100" style="padding: 30px; margin-bottom: 20px;">
+            <h4 style="text-align:left;" class="gradient-text">Languages</h4>
+            <p style="text-align:left;">
+              <img src="https://www.vectorlogo.zone/logos/python/python-horizontal.svg" alt="Python" height="50" width="120">
+              <img src="assets/img/skills/MATLAB-logo.png" class="img-fluid" height="50" width="120" alt="MATLAB">
+              <img src="https://www.vectorlogo.zone/logos/r-project/r-project-official.svg" alt="R" height="50" width="150">
+              <img src="https://www.vectorlogo.zone/logos/w3_html5/w3_html5-ar21.svg" alt="HTML5" height="40" width="80">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/CSS3_logo_and_wordmark.svg" alt="CSS3" height="60" width="90">
+              <img src="https://www.vectorlogo.zone/logos/javascript/javascript-horizontal.svg" alt="JavaScript" height="50" width="150">
+            </p>
+          </div>
+
+          <div class="col-md-12 mt-4 mt-md-0 glass-card" data-aos="fade-up" data-aos-delay="100" style="padding: 30px; margin-bottom: 20px;">
+            <h4 style="text-align:left;" class="gradient-text">Design and Simulation</h4>
+            <p style="text-align:left;">
+              <img src="assets/img/skills/creo.png" class="img-fluid" height="50" width="120" alt="Creo">
+              <img src="assets/img/skills/simulink.png" class="img-fluid" height="50" width="120" alt="Simulink">
+              <img src="assets/img/skills/Autocad.png" class="img-fluid" height="50" width="120" alt="AutoCAD">
+              <img src="assets/img/skills/ds.png" class="img-fluid" height="50" width="120" alt="DS">
+              <img src="assets/img/skills/Fusion_360.jpg" class="img-fluid" height="50" width="120" alt="Fusion 360">
+              <img src="assets/img/skills/Ansys.png" class="img-fluid" height="50" width="120" alt="ANSYS">
+              <img src="assets/img/skills/Logo_Automation_Studio.png" class="img-fluid" height="50" width="120" alt="Automation Studio">
+              <img src="assets/img/skills/amesim.png" class="img-fluid" height="15" width="40" alt="AmeSim">
+            </p>
+          </div>
+
+          <div class="col-md-12 mt-4 mt-md-0 glass-card" data-aos="fade-up" data-aos-delay="100" style="padding: 30px; margin-bottom: 20px;">
+            <h4 style="text-align:left;" class="gradient-text">Databases & PLM</h4>
+            <p style="text-align:left;">
+              <img src="assets/img/skills/ptc.png" class="img-fluid" height="50" width="120" alt="PTC">
+              <img src="assets/img/skills/siemens-logo.png" class="img-fluid" height="50" width="120" alt="Siemens">
+            </p>
+          </div>
+
+          <div class="col-md-12 mt-4 mt-md-0 glass-card" data-aos="lefade-up" data-aos-delay="100" style="padding: 30px; margin-bottom: 20px;">
+            <h4 style="text-align:left;" class="gradient-text">Libraries</h4>
+            <p style="text-align:left;">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Pandas_logo.svg/2560px-Pandas_logo.svg.png" alt="Pandas" width="100">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/NumPy_logo_2020.svg/1280px-NumPy_logo_2020.svg.png" alt="NumPy" width="100">
+              <img src="https://matplotlib.org/stable/_images/sphx_glr_logos2_003.png" alt="Matplotlib" width="100">
+              <img src="https://seaborn.pydata.org/_images/logo-wide-lightbg.svg" alt="Seaborn" width="100">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Scikit_learn_logo_small.svg/1280px-Scikit_learn_logo_small.svg.png" alt="Scikit-learn" width="75">
+              <img src="https://scipy.org/images/logo.svg" alt="SciPy" width="50">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Tensorflow_logo.svg/1200px-Tensorflow_logo.svg.png" alt="TensorFlow" width="50">
+              <img src="assets/img/skills/pytorch.jpg" class="img-fluid" height="50" width="120" alt="PyTorch">
+            </p>
+          </div>
+
+          <div class="col-md-12 mt-4 mt-md-0 glass-card" data-aos="lefade-up" data-aos-delay="100" style="padding: 30px; margin-bottom: 20px;">
+            <h4 style="text-align:left;" class="gradient-text">Tools</h4>
+            <p style="text-align:left;">
+              <img src="https://www.vectorlogo.zone/logos/salesforce/salesforce-ar21.svg" alt="Salesforce">
+              <img src="https://www.vectorlogo.zone/logos/git-scm/git-scm-ar21.svg" alt="Git" width="100">
+              <img src="https://www.vectorlogo.zone/logos/jupyter/jupyter-ar21.svg" alt="Jupyter">
+              <img src="https://www.vectorlogo.zone/logos/slack/slack-ar21.svg" alt="Slack">
+              <img src="https://raw.githubusercontent.com/gilbarbara/logos/main/logos/tableau.svg" alt="Tableau" width="120">
+              <img src="https://www.vectorlogo.zone/logos/microsoft_powerbi/microsoft_powerbi-ar21.svg" alt="Power BI">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/PyCharm_Icon.svg/768px-PyCharm_Icon.svg.png" alt="PyCharm" width="50">
+              <img src="assets/img/skills/vscode.jpg" class="img-fluid" height="50" width="120" alt="VS Code">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Microsoft_Office_Excel_%282019%E2%80%93present%29.svg/1101px-Microsoft_Office_Excel_%282019%E2%80%93present%29.svg.png" alt="Excel" width="40">
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End Skills Section -->
+
+  <!-- ======= Start Contact Section ======= -->
+  <section id="contact" class="contact">
+    <div class="container">
+      <div class="section-title reveal-up">
+        <h2>Contact</h2>
+      </div>
+      <div class="row">
+        <div class="col-md-6 mt-4 mt-md-0 d-flex align-items-stretch reveal-up">
+          <div class="glass-card info-box" style="width: 100%;">
+            <i class="bx bx-share-alt"></i>
+            <h3 class="gradient-text">Social Profiles</h3>
+            <div class="social-links">
+              <a href="mailto:sthatiko@asu.edu" target="_blank" class="gmail magnetic-btn"><i class="bx bxl-google"></i></a>
+              <a href="https://www.linkedin.com/in/sreekanth-netha-thatikonda/" target="_blank" class="linkedin magnetic-btn"><i class="bx bxl-linkedin"></i></a>
+              <a href="https://github.com/bunnythatikonda" target="_blank" class="github magnetic-btn"><i class="bx bxl-github"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 mt-4 mt-md-0 d-flex align-items-stretch reveal-up">
+          <div class="glass-card info-box" style="width: 100%;">
+            <i class="bx bx-envelope"></i>
+            <h3 class="gradient-text">Email</h3>
+            <a href="mailto:sthatiko@asu.edu" target="_blank"><p><i class="icofont-rounded-right"></i> sthatiko@asu.edu</p></a>
+          </div>
+        </div>
+        <div class="col-md-6 mt-4 mt-md-0 d-flex align-items-stretch reveal-up">
+          <div class="glass-card info-box" style="width: 100%;">
+            <i class="bx bx-home"></i>
+            <h3 class="gradient-text">Current Location</h3>
+            <a href="https://maps.app.goo.gl/Bn3nfbfGRbKBqs639" target="_blank"><p><i class="icofont-rounded-right"></i> Kansas, United States</p></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- ======= End Contact Section ======= -->
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/jquery/jquery.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/jquery.easing/jquery.easing.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/waypoints/jquery.waypoints.min.js"></script>
+  <script src="assets/vendor/counterup/counterup.min.js"></script>
+  <script src="assets/vendor/owl.carousel/owl.carousel.min.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/vendor/venobox/venobox.min.js"></script>
+  <script src="assets/vendor/typed.js/typed.min.js"></script>
+
+  <!-- Enhanced Typing Effect -->
+  <script type="text/javascript">
+    var typed = new Typed('.typing', {
+      strings: [
+        "a <span class='gradient-text'>Hydraulics Engineer</span>",
+        "a <span class='gradient-text'>Systems Architect</span>",
+        "a <span class='gradient-text'>Systems Engineer</span>",
+        "a <span class='gradient-text'>Design Engineer</span>",
+        "a <span class='gradient-text'>Research Engineer</span>",
+        "a <span class='gradient-text'>Machine Learning Engineer</span>",
+        "a <span class='gradient-text'>Product Development Engineer</span>"
+      ],
+      loop: true,
+      typeSpeed: 50,
+      backSpeed: 30,
+      backDelay: 2000,
+      contentType: 'html'
+    });
+  </script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+  <!-- Interactive Features Script -->
+  <script>
+    // API Base URL
+    const API_BASE_URL = window.location.origin;
+
+    // Custom Cursor
+    const cursor = document.getElementById('cursor');
+    const cursorDot = document.getElementById('cursor-dot');
+
+    if (window.innerWidth > 768) {
+      document.addEventListener('mousemove', (e) => {
+        cursor.style.left = e.clientX - 10 + 'px';
+        cursor.style.top = e.clientY - 10 + 'px';
+        cursorDot.style.left = e.clientX - 3 + 'px';
+        cursorDot.style.top = e.clientY - 3 + 'px';
+      });
+
+      // Cursor hover effect
+      const interactiveElements = document.querySelectorAll('a, button, .magnetic-btn, .project-card, .skill-pill');
+      interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+        el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+      });
+    }
+
+    // Particles.js Configuration
+    particlesJS('particles-js', {
+      particles: {
+        number: { value: 80, density: { enable: true, value_area: 800 } },
+        color: { value: '#12d640' },
+        shape: { type: 'circle' },
+        opacity: { value: 0.3, random: true },
+        size: { value: 3, random: true },
+        line_linked: {
+          enable: true,
+          distance: 150,
+          color: '#12d640',
+          opacity: 0.2,
+          width: 1
+        },
+        move: {
+          enable: true,
+          speed: 2,
+          direction: 'none',
+          random: true,
+          out_mode: 'out'
+        }
+      },
+      interactivity: {
+        detect_on: 'canvas',
+        events: {
+          onhover: { enable: true, mode: 'grab' },
+          onclick: { enable: true, mode: 'push' },
+          resize: true
+        },
+        modes: {
+          grab: { distance: 140, line_linked: { opacity: 0.5 } },
+          push: { particles_nb: 4 }
+        }
+      },
+      retina_detect: true
+    });
+
+    // Scroll-triggered reveal animations
+    const revealElements = document.querySelectorAll('.reveal-up');
+    
+    const revealOnScroll = () => {
+      revealElements.forEach(el => {
+        const elementTop = el.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+        
+        if (elementTop < windowHeight - 100) {
+          el.classList.add('revealed');
+        }
+      });
+    };
+
+    window.addEventListener('scroll', revealOnScroll);
+    revealOnScroll(); // Initial check
+
+    // 3D Tilt Effect for Cards
+    const tiltCards = document.querySelectorAll('.tilt-card');
+    
+    tiltCards.forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        const rotateX = (y - centerY) / 20;
+        const rotateY = (centerX - x) / 20;
+        
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+      });
+      
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+      });
+    });
+
+    // Magnetic Button Effect
+    const magneticBtns = document.querySelectorAll('.magnetic-btn');
+    
+    magneticBtns.forEach(btn => {
+      btn.addEventListener('mousemove', (e) => {
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        
+        btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+      });
+      
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transform = 'translate(0, 0)';
+      });
+    });
+
+    // Visitor Statistics Tracking
+    const trackVisitor = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/visitors/track`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' }
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          updateStats(data.stats);
+        }
+      } catch (error) {
+        console.log('Stats tracking unavailable');
+        // Fallback to localStorage if API fails
+        updateLocalStats();
+      }
+    };
+
+    const updateStats = (stats) => {
+      animateCounter('total-visits', stats.total_visits || 0);
+      animateCounter('unique-visitors', stats.unique_visitors || 0);
+      animateCounter('page-views', stats.page_views || 0);
+    };
+
+    const animateCounter = (elementId, targetValue) => {
+      const element = document.getElementById(elementId);
+      if (!element) return;
+      
+      const startValue = parseInt(element.textContent) || 0;
+      const duration = 1000;
+      const increment = (targetValue - startValue) / (duration / 16);
+      let currentValue = startValue;
+      
+      element.classList.add('updating');
+      
+      const animate = () => {
+        currentValue += increment;
+        
+        if ((increment > 0 && currentValue >= targetValue) || (increment < 0 && currentValue <= targetValue)) {
+          element.textContent = targetValue.toLocaleString();
+          element.classList.remove('updating');
+          return;
+        }
+        
+        element.textContent = Math.floor(currentValue).toLocaleString();
+        requestAnimationFrame(animate);
+      };
+      
+      animate();
+    };
+
+    // Fallback local stats
+    const updateLocalStats = () => {
+      let stats = JSON.parse(localStorage.getItem('portfolio_stats') || '{"total_visits":0,"unique_visitors":0,"page_views":0}');
+      
+      // Check if first visit
+      if (!localStorage.getItem('visitor_id')) {
+        localStorage.setItem('visitor_id', 'v_' + Date.now());
+        stats.unique_visitors++;
+      }
+      
+      stats.total_visits++;
+      stats.page_views++;
+      
+      localStorage.setItem('portfolio_stats', JSON.stringify(stats));
+      updateStats(stats);
+    };
+
+    // Fetch latest stats periodically
+    const fetchStats = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/visitors/stats`);
+        if (response.ok) {
+          const stats = await response.json();
+          updateStats(stats);
+        }
+      } catch (error) {
+        console.log('Could not fetch stats');
+      }
+    };
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      trackVisitor();
+      
+      // Refresh stats every 30 seconds
+      setInterval(fetchStats, 30000);
+    });
+
+    // GSAP Animations for header elements
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsap.from('#header h1', {
+      duration: 1.5,
+      y: 50,
+      opacity: 0,
+      ease: 'power4.out'
+    });
+
+    gsap.from('#header h2', {
+      duration: 1.5,
+      y: 30,
+      opacity: 0,
+      delay: 0.3,
+      ease: 'power4.out'
+    });
+
+    gsap.from('#header .nav-menu', {
+      duration: 1,
+      y: 20,
+      opacity: 0,
+      delay: 0.6,
+      ease: 'power4.out'
+    });
+
+    gsap.from('#header .social-links a', {
+      duration: 0.8,
+      y: 20,
+      opacity: 0,
+      stagger: 0.1,
+      delay: 0.9,
+      ease: 'power4.out'
+    });
+
+    gsap.from('.visitor-stats', {
+      duration: 1,
+      x: 100,
+      opacity: 0,
+      delay: 1.2,
+      ease: 'power4.out'
+    });
+  </script>
+</body>
+
+</html>
