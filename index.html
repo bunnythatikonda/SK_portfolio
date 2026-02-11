@@ -113,13 +113,10 @@
       min-width: 160px;
       box-shadow: var(--glow-green);
       display: none;
-      opacity: 0;
-      transition: opacity 0.3s ease;
     }
 
     .visitor-stats.visible {
-      display: block;
-      opacity: 1;
+      display: block !important;
     }
 
     .visitor-stats .stat-item {
@@ -1219,15 +1216,9 @@
       const isContactActive = contactSection && contactSection.classList.contains('section-show');
       
       if (isContactActive) {
-        visitorStats.style.display = 'block';
-        setTimeout(() => {
-          visitorStats.classList.add('visible');
-        }, 50);
+        visitorStats.classList.add('visible');
       } else {
         visitorStats.classList.remove('visible');
-        setTimeout(() => {
-          visitorStats.style.display = 'none';
-        }, 300);
       }
     }
 
