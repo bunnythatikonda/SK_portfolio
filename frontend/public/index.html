@@ -1216,15 +1216,9 @@
       const isContactActive = contactSection && contactSection.classList.contains('section-show');
       
       if (isContactActive) {
-        visitorStats.style.display = 'block';
-        setTimeout(() => {
-          visitorStats.classList.add('visible');
-        }, 50);
+        visitorStats.classList.add('visible');
       } else {
         visitorStats.classList.remove('visible');
-        setTimeout(() => {
-          visitorStats.style.display = 'none';
-        }, 300);
       }
     }
 
