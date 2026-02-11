@@ -1482,9 +1482,14 @@
     };
 
     const updateStats = (stats) => {
-      animateCounter('total-visits', stats.total_visits || 0);
-      animateCounter('unique-visitors', stats.unique_visitors || 0);
-      animateCounter('page-views', stats.page_views || 0);
+      // Update admin panel stats
+      const adminTotalVisits = document.getElementById('admin-total-visits');
+      const adminUniqueVisitors = document.getElementById('admin-unique-visitors');
+      const adminPageViews = document.getElementById('admin-page-views');
+      
+      if (adminTotalVisits) adminTotalVisits.textContent = (stats.total_visits || 0).toLocaleString();
+      if (adminUniqueVisitors) adminUniqueVisitors.textContent = (stats.unique_visitors || 0).toLocaleString();
+      if (adminPageViews) adminPageViews.textContent = (stats.page_views || 0).toLocaleString();
     };
 
     const animateCounter = (elementId, targetValue) => {
