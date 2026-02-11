@@ -1339,51 +1339,12 @@
     // API Base URL
     const API_BASE_URL = window.location.origin;
 
-    // Visitor stats visibility - only show on Contact page
-    const visitorStats = document.getElementById('visitor-stats');
-    
-    function updateStatsVisibility() {
-      const contactSection = document.getElementById('contact');
-      const isContactActive = contactSection && contactSection.classList.contains('section-show');
-      
-      if (isContactActive) {
-        visitorStats.classList.add('visible');
-      } else {
-        visitorStats.classList.remove('visible');
-      }
-    }
-
-    // Watch for section changes using MutationObserver
-    const sectionObserver = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (mutation.attributeName === 'class') {
-          updateStatsVisibility();
-        }
-      });
-    });
-
-    // Observe all sections for class changes
-    document.querySelectorAll('section').forEach(section => {
-      sectionObserver.observe(section, { attributes: true, attributeFilter: ['class'] });
-    });
-
-    // Also check on nav clicks
-    document.querySelectorAll('.nav-menu a').forEach(link => {
-      link.addEventListener('click', () => {
-        setTimeout(updateStatsVisibility, 200);
-      });
-    });
-
-    // Initial check
-    setTimeout(updateStatsVisibility, 500);
-
     // Go Home function
     function goHome() {
       $('#header').removeClass('header-top');
       $("section").removeClass('section-show');
       $('.nav-menu .active').removeClass('active');
       $('.nav-menu li:first-child').addClass('active');
-      setTimeout(updateStatsVisibility, 100);
     }
 
     // Custom Cursor
