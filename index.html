@@ -1216,29 +1216,44 @@
     
     function updateStatsVisibility() {
       const contactSection = document.getElementById('contact');
-      if (contactSection && contactSection.classList.contains('section-show')) {
-        visitorStats.classList.add('visible');
+      const isContactActive = contactSection && contactSection.classList.contains('section-show');
+      
+      if (isContactActive) {
+        visitorStats.style.display = 'block';
+        setTimeout(() => {
+          visitorStats.classList.add('visible');
+        }, 50);
       } else {
         visitorStats.classList.remove('visible');
+        setTimeout(() => {
+          visitorStats.style.display = 'none';
+        }, 300);
       }
     }
 
-    // Watch for section changes
-    const observer = new MutationObserver(() => {
-      updateStatsVisibility();
+    // Watch for section changes using MutationObserver
+    const sectionObserver = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'class') {
+          updateStatsVisibility();
+        }
+      });
     });
 
     // Observe all sections for class changes
     document.querySelectorAll('section').forEach(section => {
-      observer.observe(section, { attributes: true, attributeFilter: ['class'] });
+      sectionObserver.observe(section, { attributes: true, attributeFilter: ['class'] });
     });
 
     // Also check on nav clicks
     document.querySelectorAll('.nav-menu a').forEach(link => {
       link.addEventListener('click', () => {
-        setTimeout(updateStatsVisibility, 100);
+        setTimeout(updateStatsVisibility, 200);
       });
     });
+
+    // Initial check
+    setTimeout(updateStatsVisibility, 500);
 
     // Go Home function
     function goHome() {
@@ -1246,7 +1261,7 @@
       $("section").removeClass('section-show');
       $('.nav-menu .active').removeClass('active');
       $('.nav-menu li:first-child').addClass('active');
-      updateStatsVisibility();
+      setTimeout(updateStatsVisibility, 100);
     }
 
     // Custom Cursor
