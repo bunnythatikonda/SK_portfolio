@@ -98,7 +98,7 @@
       border-color: rgba(18, 214, 64, 0.5) !important;
     }
 
-    /* Visitor stats panel - Compact version */
+    /* Visitor stats panel - Compact version, hidden by default */
     .visitor-stats {
       position: fixed;
       bottom: 15px;
@@ -112,6 +112,14 @@
       padding: 10px 14px;
       min-width: 160px;
       box-shadow: var(--glow-green);
+      display: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .visitor-stats.visible {
+      display: block;
+      opacity: 1;
     }
 
     .visitor-stats .stat-item {
@@ -1203,12 +1211,42 @@
     // API Base URL
     const API_BASE_URL = window.location.origin;
 
+    // Visitor stats visibility - only show on Contact page
+    const visitorStats = document.getElementById('visitor-stats');
+    
+    function updateStatsVisibility() {
+      const contactSection = document.getElementById('contact');
+      if (contactSection && contactSection.classList.contains('section-show')) {
+        visitorStats.classList.add('visible');
+      } else {
+        visitorStats.classList.remove('visible');
+      }
+    }
+
+    // Watch for section changes
+    const observer = new MutationObserver(() => {
+      updateStatsVisibility();
+    });
+
+    // Observe all sections for class changes
+    document.querySelectorAll('section').forEach(section => {
+      observer.observe(section, { attributes: true, attributeFilter: ['class'] });
+    });
+
+    // Also check on nav clicks
+    document.querySelectorAll('.nav-menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        setTimeout(updateStatsVisibility, 100);
+      });
+    });
+
     // Go Home function
     function goHome() {
       $('#header').removeClass('header-top');
       $("section").removeClass('section-show');
       $('.nav-menu .active').removeClass('active');
       $('.nav-menu li:first-child').addClass('active');
+      updateStatsVisibility();
     }
 
     // Custom Cursor
