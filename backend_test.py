@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """
 Portfolio Backend API Testing
-Tests visitor tracking functionality and API endpoints
+Tests visitor tracking functionality, admin authentication, and content management APIs
 """
 
 import requests
 import sys
 import json
 from datetime import datetime
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 
 class PortfolioAPITester:
     def __init__(self, base_url: str):
