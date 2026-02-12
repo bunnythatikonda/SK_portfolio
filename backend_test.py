@@ -568,7 +568,7 @@ class PortfolioAPITester:
 
 def main():
     # Use the public URL from frontend/.env
-    base_url = "https://ad6cb6b0-b444-4013-9bf4-8e4c6b512bd5.preview.emergentagent.com"
+    base_url = "https://portfolio-stats-3.preview.emergentagent.com"
     
     tester = PortfolioAPITester(base_url)
     results = tester.run_all_tests()
