@@ -16,6 +16,8 @@ class PortfolioAPITester:
         self.tests_run = 0
         self.tests_passed = 0
         self.test_results = []
+        self.admin_token: Optional[str] = None
+        self.created_ids = []  # Track created content IDs for cleanup
 
     def log_test(self, name: str, success: bool, details: str = ""):
         """Log test result"""
