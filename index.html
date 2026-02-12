@@ -1991,9 +1991,148 @@
       }
     });
 
+    // Load and display saved content on public site
+    async function loadPublicContent() {
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/content/all`);
+        if (response.ok) {
+          const content = await response.json();
+          
+          // Update about section if content exists
+          if (content.about && content.about.text) {
+            const aboutDisplay = document.getElementById('about-text-display');
+            if (aboutDisplay) {
+              aboutDisplay.innerHTML = content.about.text.replace(/\n/g, '<br>');
+            }
+          }
+          
+          // Update about image if exists
+          if (content.about && content.about.image_url) {
+            const aboutImg = document.getElementById('about-img-display');
+            if (aboutImg && content.about.image_url) {
+              aboutImg.src = content.about.image_url;
+            }
+          }
+
+          // Render dynamic education if exists
+          if (content.education && content.education.length > 0) {
+            renderPublicEducation(content.education);
+          }
+
+          // Render dynamic experience if exists
+          if (content.experience && content.experience.length > 0) {
+            renderPublicExperience(content.experience);
+          }
+
+          // Render dynamic projects if exists
+          if (content.projects && content.projects.length > 0) {
+            renderPublicProjects(content.projects);
+          }
+
+          // Render dynamic skills if exists
+          if (content.skills && content.skills.length > 0) {
+            renderPublicSkills(content.skills);
+          }
+          
+          console.log('Public content loaded successfully');
+        }
+      } catch (error) {
+        console.log('Using static content - database content not available');
+      }
+    }
+
+    // Render public education section
+    function renderPublicEducation(items) {
+      const container = document.getElementById('education-display');
+      if (!container || items.length === 0) return;
+      
+      container.innerHTML = items.map(item => `
+        <div class="col-lg-12 reveal-up revealed" data-aos="fade-up">
+          <div class="col-md-12 mt-4 mt-md-0 glass-card tilt-card" style="padding: 30px; margin-bottom: 20px;">
+            ${item.logo_url ? `<a href="${item.website_url || '#'}" target="_blank"><img src="${item.logo_url}" class="img-fluid" style="float:left;margin:0 20px 0 0;" width="90"></a>` : ''}
+            <h4 style="text-align:left;"><a href="${item.website_url || '#'}" target="_blank" class="gradient-text">${item.institution}</a></h4>
+            <h5 style="text-align:left;"><em>${item.degree}</em></h5>
+            <span class="left" style="float:left;color:#fff;"><em>${item.period}</em></span>
+            <span class="right" style="float:right;color:#fff;"><em>${item.location}</em></span><br><br>
+            ${item.courses ? `
+              <h6 style="text-align:left;"><strong>Relevant Coursework:</strong></h6>
+              <div style="text-align:left;">
+                ${item.courses.split(',').map(course => `<span class="skill-pill">${course.trim()}</span>`).join('')}
+              </div>
+            ` : ''}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Render public experience section
+    function renderPublicExperience(items) {
+      const container = document.getElementById('experience-display');
+      if (!container || items.length === 0) return;
+      
+      container.innerHTML = `<div class="col-lg-12 reveal-up revealed" data-aos="fade-up">
+        ${items.map(item => `
+          <div class="col-md-12 mt-4 mt-md-0 glass-card tilt-card" style="padding: 30px; margin-bottom: 20px;">
+            ${item.logo_url ? `<a href="${item.website_url || '#'}" target="_blank"><img src="${item.logo_url}" class="img-fluid" style="float:left;margin:0 20px 0 0;" width="90"></a>` : ''}
+            <h4 style="text-align:left;"><a href="${item.website_url || '#'}" target="_blank" class="gradient-text">${item.company}</a></h4>
+            <h5 style="text-align:left;"><em>${item.title}</em></h5>
+            <span class="left" style="float:left;color:#fff;"><em>${item.period}</em></span>
+            <span class="right" style="float:right;color:#fff;"><em>${item.location}</em></span><br><br>
+            <ul style="text-align:left;">
+              ${item.description.split('\n').filter(line => line.trim()).map(line => `<li>${line.trim()}</li>`).join('')}
+            </ul>
+          </div>
+        `).join('')}
+      </div>`;
+    }
+
+    // Render public projects section
+    function renderPublicProjects(items) {
+      const container = document.getElementById('projects-display');
+      if (!container || items.length === 0) return;
+      
+      container.innerHTML = items.map((item, index) => {
+        const colClass = index < 2 ? 'col-md-6' : 'col-md-4';
+        const height = index < 2 ? '200px' : '180px';
+        return `
+          <div class="${colClass} reveal-up revealed project-card glass-card" style="margin-bottom: 20px; padding: 0; overflow: hidden;">
+            <a href="${item.link || '#'}" target="_blank" rel="noreferrer">
+              <img src="${item.image_url || 'assets/img/projects/default.jpg'}" class="img-fluid" alt="${item.title}" style="width: 100%; height: ${height}; object-fit: cover;">
+              <div class="project-overlay">
+                <div>
+                  <h5 class="gradient-text"><strong>${item.title}</strong></h5>
+                  <p style="font-size: 14px;">${item.description}</p>
+                </div>
+              </div>
+            </a>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Render public skills section
+    function renderPublicSkills(items) {
+      const container = document.getElementById('skills-display');
+      if (!container || items.length === 0) return;
+      
+      container.innerHTML = `<div class="col-lg-12 reveal-up revealed" data-aos="fade-up">
+        ${items.map(item => `
+          <div class="col-md-12 mt-4 mt-md-0 glass-card" style="padding: 30px; margin-bottom: 20px;">
+            <h4 style="text-align:left;" class="gradient-text">${item.category}</h4>
+            <div style="text-align:left;">
+              ${item.skills.split(/[,\n]/).filter(s => s.trim()).map(skill => `<span class="skill-pill">${skill.trim()}</span>`).join('')}
+            </div>
+          </div>
+        `).join('')}
+      </div>`;
+    }
+      }
+    }
+
     // Initialize
     document.addEventListener('DOMContentLoaded', () => {
       trackVisitor();
+      loadPublicContent(); // Load saved content on page load
       setInterval(fetchStats, 30000);
     });
 
