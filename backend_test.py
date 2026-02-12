@@ -520,8 +520,8 @@ class PortfolioAPITester:
         print(f"📍 Base URL: {self.base_url}")
         print("=" * 60)
         
-        # Run tests in order
-        tests = [
+        # Run basic tests first
+        basic_tests = [
             self.test_health_check,
             self.test_get_stats,
             self.test_visitor_tracking,
@@ -529,9 +529,30 @@ class PortfolioAPITester:
             self.test_stats_increment
         ]
         
-        for test in tests:
+        print("📋 Running Basic API Tests...")
+        for test in basic_tests:
             test()
             print()
+        
+        # Run admin and content management tests
+        admin_tests = [
+            self.test_admin_login,
+            self.test_admin_verify,
+            self.test_content_about,
+            self.test_content_education,
+            self.test_content_experience,
+            self.test_content_projects,
+            self.test_content_skills,
+            self.test_content_all
+        ]
+        
+        print("🔐 Running Admin & Content Management Tests...")
+        for test in admin_tests:
+            test()
+            print()
+        
+        # Clean up created test content
+        self.cleanup_created_content()
         
         # Summary
         success_rate = (self.tests_passed / self.tests_run * 100) if self.tests_run > 0 else 0
