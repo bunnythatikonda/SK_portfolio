@@ -1,6 +1,7 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pymongo import MongoClient
+from bson import ObjectId
 from datetime import datetime, timezone
 import os
 from dotenv import load_dotenv
@@ -56,6 +57,16 @@ def get_visitor_hash(request: Request):
     raw = f"{ip}:{user_agent}"
     return hashlib.md5(raw.encode()).hexdigest()
 
+def serialize_doc(doc):
+    """Convert MongoDB document to JSON-serializable dict"""
+    if doc is None:
+        return None
+    doc = dict(doc)
+    if "_id" in doc:
+        doc["id"] = str(doc["_id"])
+        del doc["_id"]
+    return doc
+
 # Pydantic models
 class LoginRequest(BaseModel):
     email: str
@@ -66,32 +77,36 @@ class AboutUpdate(BaseModel):
     image_url: Optional[str] = None
 
 class EducationItem(BaseModel):
+    id: Optional[str] = None
     institution: str
     degree: str
     period: str
     location: str
-    courses: List[str]
+    courses: str  # Comma separated
     logo_url: Optional[str] = None
     website_url: Optional[str] = None
 
 class ExperienceItem(BaseModel):
+    id: Optional[str] = None
     company: str
     title: str
     period: str
     location: str
-    description: List[str]
+    description: str  # Newline separated bullet points
     logo_url: Optional[str] = None
     website_url: Optional[str] = None
 
 class ProjectItem(BaseModel):
+    id: Optional[str] = None
     title: str
     description: str
     link: str
     image_url: Optional[str] = None
 
 class SkillCategory(BaseModel):
+    id: Optional[str] = None
     category: str
-    skills: List[str]
+    skills: str  # Comma or newline separated
 
 @app.get("/api/health")
 async def health_check():
@@ -191,7 +206,7 @@ async def verify_admin(request: Request):
             return {"valid": True}
     return {"valid": False}
 
-# Content Management Endpoints
+# ============ ABOUT SECTION ============
 @app.get("/api/content/about")
 async def get_about():
     """Get about section content"""
@@ -203,70 +218,168 @@ async def update_about(about: AboutUpdate):
     """Update about section"""
     content_collection.update_one(
         {"section": "about"},
-        {"$set": {"text": about.text, "image_url": about.image_url}},
+        {"$set": {"section": "about", "text": about.text, "image_url": about.image_url}},
         upsert=True
     )
     return {"success": True}
 
+# ============ EDUCATION SECTION ============
 @app.get("/api/content/education")
 async def get_education():
     """Get education items"""
-    items = list(content_collection.find({"section": "education"}, {"_id": 0}).limit(50))
-    return items
+    items = list(content_collection.find({"section": "education"}).limit(50))
+    return [serialize_doc(item) for item in items]
 
 @app.post("/api/content/education")
-async def add_education(item: EducationItem):
-    """Add education item"""
-    content_collection.insert_one({
+async def save_education(item: EducationItem):
+    """Add or update education item"""
+    data = {
         "section": "education",
-        **item.dict()
-    })
+        "institution": item.institution,
+        "degree": item.degree,
+        "period": item.period,
+        "location": item.location,
+        "courses": item.courses,
+        "logo_url": item.logo_url or "",
+        "website_url": item.website_url or ""
+    }
+    
+    if item.id:
+        content_collection.update_one(
+            {"_id": ObjectId(item.id)},
+            {"$set": data}
+        )
+        return {"success": True, "id": item.id}
+    else:
+        result = content_collection.insert_one(data)
+        return {"success": True, "id": str(result.inserted_id)}
+
+@app.delete("/api/content/education/{item_id}")
+async def delete_education(item_id: str):
+    """Delete education item"""
+    content_collection.delete_one({"_id": ObjectId(item_id)})
     return {"success": True}
 
+# ============ EXPERIENCE SECTION ============
 @app.get("/api/content/experience")
 async def get_experience():
     """Get experience items"""
-    items = list(content_collection.find({"section": "experience"}, {"_id": 0}).limit(50))
-    return items
+    items = list(content_collection.find({"section": "experience"}).limit(50))
+    return [serialize_doc(item) for item in items]
 
 @app.post("/api/content/experience")
-async def add_experience(item: ExperienceItem):
-    """Add experience item"""
-    content_collection.insert_one({
+async def save_experience(item: ExperienceItem):
+    """Add or update experience item"""
+    data = {
         "section": "experience",
-        **item.dict()
-    })
+        "company": item.company,
+        "title": item.title,
+        "period": item.period,
+        "location": item.location,
+        "description": item.description,
+        "logo_url": item.logo_url or "",
+        "website_url": item.website_url or ""
+    }
+    
+    if item.id:
+        content_collection.update_one(
+            {"_id": ObjectId(item.id)},
+            {"$set": data}
+        )
+        return {"success": True, "id": item.id}
+    else:
+        result = content_collection.insert_one(data)
+        return {"success": True, "id": str(result.inserted_id)}
+
+@app.delete("/api/content/experience/{item_id}")
+async def delete_experience(item_id: str):
+    """Delete experience item"""
+    content_collection.delete_one({"_id": ObjectId(item_id)})
     return {"success": True}
 
+# ============ PROJECTS SECTION ============
 @app.get("/api/content/projects")
 async def get_projects():
     """Get project items"""
-    items = list(content_collection.find({"section": "projects"}, {"_id": 0}).limit(100))
-    return items
+    items = list(content_collection.find({"section": "projects"}).limit(100))
+    return [serialize_doc(item) for item in items]
 
 @app.post("/api/content/projects")
-async def add_project(item: ProjectItem):
-    """Add project item"""
-    content_collection.insert_one({
+async def save_project(item: ProjectItem):
+    """Add or update project item"""
+    data = {
         "section": "projects",
-        **item.dict()
-    })
+        "title": item.title,
+        "description": item.description,
+        "link": item.link,
+        "image_url": item.image_url or ""
+    }
+    
+    if item.id:
+        content_collection.update_one(
+            {"_id": ObjectId(item.id)},
+            {"$set": data}
+        )
+        return {"success": True, "id": item.id}
+    else:
+        result = content_collection.insert_one(data)
+        return {"success": True, "id": str(result.inserted_id)}
+
+@app.delete("/api/content/projects/{item_id}")
+async def delete_project(item_id: str):
+    """Delete project item"""
+    content_collection.delete_one({"_id": ObjectId(item_id)})
     return {"success": True}
 
+# ============ SKILLS SECTION ============
 @app.get("/api/content/skills")
 async def get_skills():
     """Get skill categories"""
-    items = list(content_collection.find({"section": "skills"}, {"_id": 0}).limit(50))
-    return items
+    items = list(content_collection.find({"section": "skills"}).limit(50))
+    return [serialize_doc(item) for item in items]
 
 @app.post("/api/content/skills")
-async def add_skill_category(item: SkillCategory):
-    """Add skill category"""
-    content_collection.insert_one({
+async def save_skill_category(item: SkillCategory):
+    """Add or update skill category"""
+    data = {
         "section": "skills",
-        **item.dict()
-    })
+        "category": item.category,
+        "skills": item.skills
+    }
+    
+    if item.id:
+        content_collection.update_one(
+            {"_id": ObjectId(item.id)},
+            {"$set": data}
+        )
+        return {"success": True, "id": item.id}
+    else:
+        result = content_collection.insert_one(data)
+        return {"success": True, "id": str(result.inserted_id)}
+
+@app.delete("/api/content/skills/{item_id}")
+async def delete_skill_category(item_id: str):
+    """Delete skill category"""
+    content_collection.delete_one({"_id": ObjectId(item_id)})
     return {"success": True}
+
+# ============ GET ALL CONTENT ============
+@app.get("/api/content/all")
+async def get_all_content():
+    """Get all portfolio content for rendering"""
+    about = content_collection.find_one({"section": "about"}, {"_id": 0})
+    education = [serialize_doc(item) for item in content_collection.find({"section": "education"}).limit(50)]
+    experience = [serialize_doc(item) for item in content_collection.find({"section": "experience"}).limit(50)]
+    projects = [serialize_doc(item) for item in content_collection.find({"section": "projects"}).limit(100)]
+    skills = [serialize_doc(item) for item in content_collection.find({"section": "skills"}).limit(50)]
+    
+    return {
+        "about": about or {"text": "", "image_url": ""},
+        "education": education,
+        "experience": experience,
+        "projects": projects,
+        "skills": skills
+    }
 
 if __name__ == "__main__":
     import uvicorn
