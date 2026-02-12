@@ -1591,133 +1591,384 @@
       isLoggedIn = true;
     }
 
-    // Admin functions
-    function loadAdminData() {
-      // Load about text
-      const aboutText = document.getElementById('about-text-display')?.innerText || '';
-      document.getElementById('about-text').value = aboutText;
+    // ============ ADMIN DATA MANAGEMENT ============
+    let adminData = {
+      about: { text: '', image_url: '' },
+      education: [],
+      experience: [],
+      projects: [],
+      skills: []
+    };
+
+    // Load all admin data from database
+    async function loadAdminData() {
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/content/all`);
+        if (response.ok) {
+          adminData = await response.json();
+          renderAdminEducation();
+          renderAdminExperience();
+          renderAdminProjects();
+          renderAdminSkills();
+          
+          // Load about text
+          document.getElementById('about-text').value = adminData.about?.text || '';
+        }
+      } catch (error) {
+        console.log('Error loading admin data:', error);
+      }
     }
 
-    function saveAbout() {
-      showToast();
-      // In a full implementation, this would save to the backend
+    // ============ ABOUT SECTION ============
+    async function saveAbout() {
+      const text = document.getElementById('about-text').value;
+      const imageUrl = document.getElementById('about-image-preview').src || '';
+      
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/content/about`, {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('admin_token')}`
+          },
+          body: JSON.stringify({ text, image_url: imageUrl })
+        });
+        
+        if (response.ok) {
+          showToast('About section saved!');
+          // Update the displayed about text
+          document.getElementById('about-text-display').innerHTML = text.replace(/\n/g, '<br>');
+        }
+      } catch (error) {
+        showToast('Error saving about section', true);
+      }
+    }
+
+    // ============ EDUCATION SECTION ============
+    function renderAdminEducation() {
+      const list = document.getElementById('education-list');
+      list.innerHTML = '';
+      adminData.education.forEach(item => {
+        list.appendChild(createEducationItem(item));
+      });
+    }
+
+    function createEducationItem(data = {}) {
+      const div = document.createElement('div');
+      div.className = 'admin-item';
+      div.dataset.id = data.id || '';
+      
+      div.innerHTML = `
+        <div class="admin-item-header">
+          <h5>Education Entry</h5>
+          <button class="admin-btn danger" onclick="deleteEducation(this)"><i class="fas fa-trash"></i></button>
+        </div>
+        <div class="form-row">
+          <input type="text" class="edu-institution" placeholder="Institution Name" value="${data.institution || ''}">
+          <input type="text" class="edu-degree" placeholder="Degree" value="${data.degree || ''}">
+        </div>
+        <div class="form-row">
+          <input type="text" class="edu-period" placeholder="Period (e.g., Jan 2022 - Dec 2023)" value="${data.period || ''}">
+          <input type="text" class="edu-location" placeholder="Location" value="${data.location || ''}">
+        </div>
+        <input type="text" class="edu-courses" placeholder="Relevant Courses (comma separated)" value="${data.courses || ''}" style="width:100%; margin-bottom:10px;">
+        <input type="url" class="edu-logo" placeholder="Logo URL (optional)" value="${data.logo_url || ''}" style="width:100%; margin-bottom:10px;">
+        <input type="url" class="edu-website" placeholder="Institution Website URL" value="${data.website_url || ''}" style="width:100%; margin-bottom:10px;">
+        <button class="admin-btn" onclick="saveEducation(this)"><i class="fas fa-save"></i> Save</button>
+      `;
+      return div;
     }
 
     function addEducation() {
       const list = document.getElementById('education-list');
-      const item = createAdminItem('education', {
-        institution: '',
-        degree: '',
-        period: '',
-        location: '',
-        courses: ''
+      list.appendChild(createEducationItem());
+    }
+
+    async function saveEducation(btn) {
+      const item = btn.closest('.admin-item');
+      const data = {
+        id: item.dataset.id || null,
+        institution: item.querySelector('.edu-institution').value,
+        degree: item.querySelector('.edu-degree').value,
+        period: item.querySelector('.edu-period').value,
+        location: item.querySelector('.edu-location').value,
+        courses: item.querySelector('.edu-courses').value,
+        logo_url: item.querySelector('.edu-logo').value,
+        website_url: item.querySelector('.edu-website').value
+      };
+      
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/content/education`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        
+        if (response.ok) {
+          const result = await response.json();
+          item.dataset.id = result.id;
+          showToast('Education saved!');
+          loadAdminData(); // Refresh data
+        }
+      } catch (error) {
+        showToast('Error saving education', true);
+      }
+    }
+
+    async function deleteEducation(btn) {
+      const item = btn.closest('.admin-item');
+      const id = item.dataset.id;
+      
+      if (id) {
+        try {
+          await fetch(`${API_BASE_URL}/api/content/education/${id}`, { method: 'DELETE' });
+          showToast('Education deleted!');
+        } catch (error) {
+          console.log('Error deleting:', error);
+        }
+      }
+      item.remove();
+    }
+
+    // ============ EXPERIENCE SECTION ============
+    function renderAdminExperience() {
+      const list = document.getElementById('experience-list');
+      list.innerHTML = '';
+      adminData.experience.forEach(item => {
+        list.appendChild(createExperienceItem(item));
       });
-      list.appendChild(item);
+    }
+
+    function createExperienceItem(data = {}) {
+      const div = document.createElement('div');
+      div.className = 'admin-item';
+      div.dataset.id = data.id || '';
+      
+      div.innerHTML = `
+        <div class="admin-item-header">
+          <h5>Experience Entry</h5>
+          <button class="admin-btn danger" onclick="deleteExperience(this)"><i class="fas fa-trash"></i></button>
+        </div>
+        <div class="form-row">
+          <input type="text" class="exp-company" placeholder="Company Name" value="${data.company || ''}">
+          <input type="text" class="exp-title" placeholder="Job Title" value="${data.title || ''}">
+        </div>
+        <div class="form-row">
+          <input type="text" class="exp-period" placeholder="Period" value="${data.period || ''}">
+          <input type="text" class="exp-location" placeholder="Location" value="${data.location || ''}">
+        </div>
+        <textarea class="exp-description" placeholder="Job Description (use new lines for bullet points)">${data.description || ''}</textarea>
+        <input type="url" class="exp-logo" placeholder="Company Logo URL (optional)" value="${data.logo_url || ''}" style="width:100%; margin-bottom:10px;">
+        <input type="url" class="exp-website" placeholder="Company Website URL" value="${data.website_url || ''}" style="width:100%; margin-bottom:10px;">
+        <button class="admin-btn" onclick="saveExperience(this)"><i class="fas fa-save"></i> Save</button>
+      `;
+      return div;
     }
 
     function addExperience() {
       const list = document.getElementById('experience-list');
-      const item = createAdminItem('experience', {
-        company: '',
-        title: '',
-        period: '',
-        location: '',
-        description: ''
+      list.appendChild(createExperienceItem());
+    }
+
+    async function saveExperience(btn) {
+      const item = btn.closest('.admin-item');
+      const data = {
+        id: item.dataset.id || null,
+        company: item.querySelector('.exp-company').value,
+        title: item.querySelector('.exp-title').value,
+        period: item.querySelector('.exp-period').value,
+        location: item.querySelector('.exp-location').value,
+        description: item.querySelector('.exp-description').value,
+        logo_url: item.querySelector('.exp-logo').value,
+        website_url: item.querySelector('.exp-website').value
+      };
+      
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/content/experience`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        
+        if (response.ok) {
+          const result = await response.json();
+          item.dataset.id = result.id;
+          showToast('Experience saved!');
+          loadAdminData();
+        }
+      } catch (error) {
+        showToast('Error saving experience', true);
+      }
+    }
+
+    async function deleteExperience(btn) {
+      const item = btn.closest('.admin-item');
+      const id = item.dataset.id;
+      
+      if (id) {
+        try {
+          await fetch(`${API_BASE_URL}/api/content/experience/${id}`, { method: 'DELETE' });
+          showToast('Experience deleted!');
+        } catch (error) {
+          console.log('Error deleting:', error);
+        }
+      }
+      item.remove();
+    }
+
+    // ============ PROJECTS SECTION ============
+    function renderAdminProjects() {
+      const list = document.getElementById('projects-list');
+      list.innerHTML = '';
+      adminData.projects.forEach(item => {
+        list.appendChild(createProjectItem(item));
       });
-      list.appendChild(item);
+    }
+
+    function createProjectItem(data = {}) {
+      const div = document.createElement('div');
+      div.className = 'admin-item';
+      div.dataset.id = data.id || '';
+      
+      div.innerHTML = `
+        <div class="admin-item-header">
+          <h5>Project Entry</h5>
+          <button class="admin-btn danger" onclick="deleteProject(this)"><i class="fas fa-trash"></i></button>
+        </div>
+        <input type="text" class="proj-title" placeholder="Project Title" value="${data.title || ''}" style="width:100%; margin-bottom:10px;">
+        <textarea class="proj-description" placeholder="Project Description">${data.description || ''}</textarea>
+        <input type="url" class="proj-link" placeholder="Project Link (LinkedIn, GitHub, etc.)" value="${data.link || ''}" style="width:100%; margin-bottom:10px;">
+        <input type="url" class="proj-image" placeholder="Project Thumbnail URL" value="${data.image_url || ''}" style="width:100%; margin-bottom:10px;">
+        <button class="admin-btn" onclick="saveProject(this)"><i class="fas fa-save"></i> Save</button>
+      `;
+      return div;
     }
 
     function addProject() {
       const list = document.getElementById('projects-list');
-      const item = createAdminItem('project', {
-        title: '',
-        description: '',
-        link: '',
-        image: ''
+      list.appendChild(createProjectItem());
+    }
+
+    async function saveProject(btn) {
+      const item = btn.closest('.admin-item');
+      const data = {
+        id: item.dataset.id || null,
+        title: item.querySelector('.proj-title').value,
+        description: item.querySelector('.proj-description').value,
+        link: item.querySelector('.proj-link').value,
+        image_url: item.querySelector('.proj-image').value
+      };
+      
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/content/projects`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        
+        if (response.ok) {
+          const result = await response.json();
+          item.dataset.id = result.id;
+          showToast('Project saved!');
+          loadAdminData();
+        }
+      } catch (error) {
+        showToast('Error saving project', true);
+      }
+    }
+
+    async function deleteProject(btn) {
+      const item = btn.closest('.admin-item');
+      const id = item.dataset.id;
+      
+      if (id) {
+        try {
+          await fetch(`${API_BASE_URL}/api/content/projects/${id}`, { method: 'DELETE' });
+          showToast('Project deleted!');
+        } catch (error) {
+          console.log('Error deleting:', error);
+        }
+      }
+      item.remove();
+    }
+
+    // ============ SKILLS SECTION ============
+    function renderAdminSkills() {
+      const list = document.getElementById('skills-list');
+      list.innerHTML = '';
+      adminData.skills.forEach(item => {
+        list.appendChild(createSkillItem(item));
       });
-      list.appendChild(item);
+    }
+
+    function createSkillItem(data = {}) {
+      const div = document.createElement('div');
+      div.className = 'admin-item';
+      div.dataset.id = data.id || '';
+      
+      div.innerHTML = `
+        <div class="admin-item-header">
+          <h5>Skill Category</h5>
+          <button class="admin-btn danger" onclick="deleteSkill(this)"><i class="fas fa-trash"></i></button>
+        </div>
+        <input type="text" class="skill-category" placeholder="Category Name (e.g., Languages, Tools)" value="${data.category || ''}" style="width:100%; margin-bottom:10px;">
+        <textarea class="skill-list" placeholder="Skills (one per line or comma separated)">${data.skills || ''}</textarea>
+        <button class="admin-btn" onclick="saveSkill(this)"><i class="fas fa-save"></i> Save</button>
+      `;
+      return div;
     }
 
     function addSkillCategory() {
       const list = document.getElementById('skills-list');
-      const item = createAdminItem('skill', {
-        category: '',
-        skills: ''
-      });
-      list.appendChild(item);
+      list.appendChild(createSkillItem());
     }
 
-    function createAdminItem(type, data) {
-      const div = document.createElement('div');
-      div.className = 'admin-item';
+    async function saveSkill(btn) {
+      const item = btn.closest('.admin-item');
+      const data = {
+        id: item.dataset.id || null,
+        category: item.querySelector('.skill-category').value,
+        skills: item.querySelector('.skill-list').value
+      };
       
-      let html = `<div class="admin-item-header">
-        <h5>${type.charAt(0).toUpperCase() + type.slice(1)} Entry</h5>
-        <button class="admin-btn danger" onclick="this.parentElement.parentElement.remove()"><i class="fas fa-trash"></i></button>
-      </div>`;
-      
-      if (type === 'education') {
-        html += `
-          <div class="form-row">
-            <input type="text" placeholder="Institution Name" value="${data.institution}">
-            <input type="text" placeholder="Degree" value="${data.degree}">
-          </div>
-          <div class="form-row">
-            <input type="text" placeholder="Period (e.g., Jan 2022 - Dec 2023)" value="${data.period}">
-            <input type="text" placeholder="Location" value="${data.location}">
-          </div>
-          <input type="text" placeholder="Relevant Courses (comma separated)" value="${data.courses}">
-          <div class="image-upload-area" onclick="this.querySelector('input').click()">
-            <i class="fas fa-cloud-upload-alt"></i>
-            <p style="color: #aaa;">Upload Logo</p>
-            <input type="file" accept="image/*" style="display: none;">
-          </div>
-          <input type="url" placeholder="Institution Website URL">
-        `;
-      } else if (type === 'experience') {
-        html += `
-          <div class="form-row">
-            <input type="text" placeholder="Company Name" value="${data.company}">
-            <input type="text" placeholder="Job Title" value="${data.title}">
-          </div>
-          <div class="form-row">
-            <input type="text" placeholder="Period" value="${data.period}">
-            <input type="text" placeholder="Location" value="${data.location}">
-          </div>
-          <textarea placeholder="Job Description (use new lines for bullet points)">${data.description}</textarea>
-          <div class="image-upload-area" onclick="this.querySelector('input').click()">
-            <i class="fas fa-cloud-upload-alt"></i>
-            <p style="color: #aaa;">Upload Company Logo</p>
-            <input type="file" accept="image/*" style="display: none;">
-          </div>
-          <input type="url" placeholder="Company Website URL">
-        `;
-      } else if (type === 'project') {
-        html += `
-          <input type="text" placeholder="Project Title" value="${data.title}">
-          <textarea placeholder="Project Description">${data.description}</textarea>
-          <input type="url" placeholder="Project Link (LinkedIn, GitHub, etc.)" value="${data.link}">
-          <div class="image-upload-area" onclick="this.querySelector('input').click()">
-            <i class="fas fa-cloud-upload-alt"></i>
-            <p style="color: #aaa;">Upload Project Thumbnail</p>
-            <input type="file" accept="image/*" style="display: none;">
-          </div>
-        `;
-      } else if (type === 'skill') {
-        html += `
-          <input type="text" placeholder="Category Name (e.g., Languages, Tools)" value="${data.category}">
-          <textarea placeholder="Skills (one per line or comma separated)">${data.skills}</textarea>
-        `;
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/content/skills`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        
+        if (response.ok) {
+          const result = await response.json();
+          item.dataset.id = result.id;
+          showToast('Skills saved!');
+          loadAdminData();
+        }
+      } catch (error) {
+        showToast('Error saving skills', true);
       }
-      
-      html += `<button class="admin-btn" style="margin-top: 15px;" onclick="showToast()"><i class="fas fa-save"></i> Save</button>`;
-      
-      div.innerHTML = html;
-      return div;
     }
 
-    function showToast() {
+    async function deleteSkill(btn) {
+      const item = btn.closest('.admin-item');
+      const id = item.dataset.id;
+      
+      if (id) {
+        try {
+          await fetch(`${API_BASE_URL}/api/content/skills/${id}`, { method: 'DELETE' });
+          showToast('Skill category deleted!');
+        } catch (error) {
+          console.log('Error deleting:', error);
+        }
+      }
+      item.remove();
+    }
+
+    // ============ UTILITY FUNCTIONS ============
+    function showToast(message = 'Changes saved successfully!', isError = false) {
       const toast = document.getElementById('success-toast');
+      toast.innerHTML = `<i class="fas ${isError ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i> ${message}`;
+      toast.style.background = isError ? 'linear-gradient(135deg, #ff4444 0%, #cc0000 100%)' : 'var(--primary-gradient)';
       toast.style.display = 'block';
       setTimeout(() => {
         toast.style.display = 'none';
