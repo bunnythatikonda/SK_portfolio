@@ -33,9 +33,9 @@ stats_collection = db["stats"]
 admin_collection = db["admin"]
 content_collection = db["content"]
 
-# Admin credentials from environment
-ADMIN_EMAIL = os.environ.get("ADMIN_EMAIL", "")
-ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "")
+# Admin credentials - check environment first, then use defaults
+ADMIN_EMAIL = os.environ.get("ADMIN_EMAIL") or "netha.srikanth@yahoo.com"
+ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD") or "23Bunny09"
 
 # Initialize stats if not exists
 def init_stats():
