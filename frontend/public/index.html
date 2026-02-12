@@ -1991,9 +1991,40 @@
       }
     });
 
+    // Load and display saved content on public site
+    async function loadPublicContent() {
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/content/all`);
+        if (response.ok) {
+          const content = await response.json();
+          
+          // Update about section if content exists
+          if (content.about && content.about.text) {
+            const aboutDisplay = document.getElementById('about-text-display');
+            if (aboutDisplay) {
+              aboutDisplay.innerHTML = content.about.text.replace(/\n/g, '<br>');
+            }
+          }
+          
+          // Update about image if exists
+          if (content.about && content.about.image_url) {
+            const aboutImg = document.getElementById('about-img-display');
+            if (aboutImg) {
+              aboutImg.src = content.about.image_url;
+            }
+          }
+          
+          console.log('Public content loaded successfully');
+        }
+      } catch (error) {
+        console.log('Error loading public content:', error);
+      }
+    }
+
     // Initialize
     document.addEventListener('DOMContentLoaded', () => {
       trackVisitor();
+      loadPublicContent(); // Load saved content on page load
       setInterval(fetchStats, 30000);
     });
 
