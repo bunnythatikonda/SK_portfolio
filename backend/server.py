@@ -108,6 +108,14 @@ class SkillCategory(BaseModel):
     category: str
     skills: str  # Comma or newline separated
 
+class CertificationItem(BaseModel):
+    id: Optional[str] = None
+    name: str
+    issuer: str
+    issue_date: Optional[str] = None
+    credential_id: Optional[str] = None
+    credential_url: Optional[str] = None
+
 @app.get("/api/health")
 async def health_check():
     return {"status": "healthy", "timestamp": datetime.now(timezone.utc).isoformat()}
@@ -363,6 +371,41 @@ async def delete_skill_category(item_id: str):
     content_collection.delete_one({"_id": ObjectId(item_id)})
     return {"success": True}
 
+# ============ CERTIFICATIONS SECTION ============
+@app.get("/api/content/certifications")
+async def get_certifications():
+    """Get certifications"""
+    items = list(content_collection.find({"section": "certifications"}).limit(50))
+    return [serialize_doc(item) for item in items]
+
+@app.post("/api/content/certifications")
+async def save_certification(item: CertificationItem):
+    """Add or update certification"""
+    data = {
+        "section": "certifications",
+        "name": item.name,
+        "issuer": item.issuer,
+        "issue_date": item.issue_date or "",
+        "credential_id": item.credential_id or "",
+        "credential_url": item.credential_url or ""
+    }
+    
+    if item.id:
+        content_collection.update_one(
+            {"_id": ObjectId(item.id)},
+            {"$set": data}
+        )
+        return {"success": True, "id": item.id}
+    else:
+        result = content_collection.insert_one(data)
+        return {"success": True, "id": str(result.inserted_id)}
+
+@app.delete("/api/content/certifications/{item_id}")
+async def delete_certification(item_id: str):
+    """Delete certification"""
+    content_collection.delete_one({"_id": ObjectId(item_id)})
+    return {"success": True}
+
 # ============ GET ALL CONTENT ============
 @app.get("/api/content/all")
 async def get_all_content():
@@ -372,13 +415,15 @@ async def get_all_content():
     experience = [serialize_doc(item) for item in content_collection.find({"section": "experience"}).limit(50)]
     projects = [serialize_doc(item) for item in content_collection.find({"section": "projects"}).limit(100)]
     skills = [serialize_doc(item) for item in content_collection.find({"section": "skills"}).limit(50)]
+    certifications = [serialize_doc(item) for item in content_collection.find({"section": "certifications"}).limit(50)]
     
     return {
         "about": about or {"text": "", "image_url": ""},
         "education": education,
         "experience": experience,
         "projects": projects,
-        "skills": skills
+        "skills": skills,
+        "certifications": certifications
     }
 
 if __name__ == "__main__":

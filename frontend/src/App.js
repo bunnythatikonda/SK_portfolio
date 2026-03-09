@@ -5,7 +5,7 @@ import {
   Wrench, Activity, Zap, Layers, Cpu, Settings, 
   FileText, Mail, Linkedin, Github, ChevronDown,
   GraduationCap, Briefcase, Code, MapPin, Calendar,
-  ExternalLink, Menu, X, Shield
+  ExternalLink, Menu, X, Shield, Award
 } from "lucide-react";
 import { usePortfolio } from "./context/PortfolioContext";
 
@@ -141,7 +141,8 @@ I am eager to leverage my engineering expertise to further my professional growt
     databases: ["PTC Windchill", "Siemens Teamcenter"],
     libraries: ["Pandas", "NumPy", "Matplotlib", "Seaborn", "Scikit-learn", "SciPy", "TensorFlow", "PyTorch"],
     tools: ["Salesforce", "Git", "Jupyter", "Slack", "Tableau", "Power BI", "PyCharm", "VS Code", "Excel"]
-  }
+  },
+  certifications: []
 };
 
 // Background Images - Hydraulic Equipment Theme (optimized with lazy loading)
@@ -563,7 +564,7 @@ const Navigation = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navItems = ['About', 'Education', 'Experience', 'Projects', 'Skills', 'Contact'];
+  const navItems = ['About', 'Education', 'Experience', 'Projects', 'Skills', 'Certifications', 'Contact'];
 
   return (
     <motion.nav
@@ -1178,6 +1179,73 @@ const SkillsSection = ({ data }) => {
   );
 };
 
+// Certifications Section
+const CertificationsSection = ({ data }) => {
+  if (!data.certifications || data.certifications.length === 0) {
+    return null;
+  }
+
+  return (
+    <section id="certifications" className="py-24 sm:py-32 relative overflow-hidden" data-testid="certifications-section">
+      <div className="bg-grid" />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <SectionHeader title="Certifications" subtitle="Professional Credentials" align="center" />
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {data.certifications.map((cert, index) => (
+            <motion.a
+              key={cert.id || index}
+              href={cert.credential_url || data.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
+              whileHover={{ y: -5 }}
+              className="group glass-card p-6 transition-all duration-300 block"
+              data-testid={`certification-card-${index}`}
+            >
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform" style={{ background: 'linear-gradient(135deg, rgba(18, 214, 64, 0.2) 0%, rgba(0, 212, 255, 0.2) 100%)' }}>
+                  <Award className="text-[#12d640]" size={24} />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-heading text-lg font-semibold text-white mb-1 group-hover:text-[#12d640] transition-colors">
+                    {cert.name}
+                  </h3>
+                  <p className="text-[#aaa] text-sm mb-2">{cert.issuer}</p>
+                  {cert.issue_date && (
+                    <p className="text-[#666] text-xs flex items-center gap-1">
+                      <Calendar size={12} /> Issued {cert.issue_date}
+                    </p>
+                  )}
+                </div>
+                <ExternalLink className="text-[#666] group-hover:text-[#12d640] transition-colors flex-shrink-0" size={16} />
+              </div>
+            </motion.a>
+          ))}
+        </div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.5 }}
+          className="text-center mt-8"
+        >
+          <a
+            href={data.linkedin + "details/certifications/"}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-[#12d640] hover:text-[#00ff55] font-mono text-sm uppercase tracking-wider transition-colors"
+          >
+            View All on LinkedIn <ExternalLink size={14} />
+          </a>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
 // Contact Section
 const ContactSection = ({ data }) => {
   return (
@@ -1318,7 +1386,8 @@ function mergePortfolioData(apiData, defaults) {
       databases: apiData.skills?.databases?.length > 0 ? apiData.skills.databases : defaults.skills.databases,
       libraries: apiData.skills?.libraries?.length > 0 ? apiData.skills.libraries : defaults.skills.libraries,
       tools: apiData.skills?.tools?.length > 0 ? apiData.skills.tools : defaults.skills.tools,
-    }
+    },
+    certifications: apiData.certifications?.length > 0 ? apiData.certifications : defaults.certifications
   };
 }
 
@@ -1367,6 +1436,8 @@ function App() {
         <ProjectsSection data={portfolioData} />
         <div className="section-divider" />
         <SkillsSection data={portfolioData} />
+        <div className="section-divider" />
+        <CertificationsSection data={portfolioData} />
         <div className="section-divider" />
         <ContactSection data={portfolioData} />
       </main>

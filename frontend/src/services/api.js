@@ -138,3 +138,23 @@ export async function deleteSkill(token, id) {
     headers: { Authorization: `Bearer ${token}` },
   });
 }
+
+// Certifications APIs
+export async function getCertifications() {
+  return fetchAPI('/api/content/certifications');
+}
+
+export async function saveCertification(token, data) {
+  return fetchAPI('/api/content/certifications', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}` },
+    body: JSON.stringify(data),
+  });
+}
+
+export async function deleteCertification(token, id) {
+  return fetchAPI(`/api/content/certifications/${id}`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}

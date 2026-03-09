@@ -19,7 +19,8 @@ const defaultPortfolioData = {
     databases: [],
     libraries: [],
     tools: []
-  }
+  },
+  certifications: []
 };
 
 const PortfolioContext = createContext(null);
@@ -68,7 +69,14 @@ export function PortfolioProvider({ children }) {
             image_url: proj.image_url,
             id: proj.id
           })) || [],
-          skills: transformSkills(content.skills || [])
+          skills: transformSkills(content.skills || []),
+          certifications: content.certifications?.map(cert => ({
+            name: cert.name,
+            issuer: cert.issuer,
+            issue_date: cert.issue_date,
+            credential_url: cert.credential_url,
+            id: cert.id
+          })) || []
         };
         
         setPortfolioData(transformedData);
