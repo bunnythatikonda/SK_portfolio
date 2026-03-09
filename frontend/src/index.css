@@ -1,0 +1,366 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500&family=Space+Mono&display=swap');
+
+:root {
+  /* Original Website Theme - Black & Green */
+  --primary-green: #12d640;
+  --secondary-cyan: #00d4ff;
+  --bg-main: #0a0a0a;
+  --bg-surface: #0d1117;
+  --bg-card: rgba(13, 17, 23, 0.9);
+  --glass-border: rgba(18, 214, 64, 0.2);
+  --text-primary: #ffffff;
+  --text-secondary: #aaaaaa;
+  --text-muted: #666666;
+  
+  /* Gradient */
+  --primary-gradient: linear-gradient(135deg, #12d640 0%, #00d4ff 100%);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Space Grotesk', sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Heading Font */
+.font-heading {
+  font-family: 'Barlow Condensed', sans-serif;
+}
+
+/* Mono/Data Font */
+.font-mono {
+  font-family: 'Space Mono', monospace;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-main);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-green);
+  border-radius: 0;
+}
+
+/* Gradient Text Effect */
+.gradient-text {
+  background: var(--primary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Hydraulic Flow Animation - Main Circuit */
+@keyframes flow {
+  0% {
+    stroke-dashoffset: 200;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes flowReturn {
+  0% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: -200;
+  }
+}
+
+@keyframes pressure-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes gauge-needle-rotate {
+  0%, 100% {
+    transform: rotate(-30deg);
+  }
+  50% {
+    transform: rotate(30deg);
+  }
+}
+
+@keyframes pump-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes cylinder-extend {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(20px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes valve-spool {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+@keyframes oil-particle {
+  0% {
+    offset-distance: 0%;
+    opacity: 1;
+  }
+  100% {
+    offset-distance: 100%;
+    opacity: 0.3;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 5px var(--primary-green));
+  }
+  50% {
+    filter: drop-shadow(0 0 15px var(--primary-green));
+  }
+}
+
+/* Scroll-triggered flow animation */
+@keyframes scrollFlow {
+  from {
+    stroke-dashoffset: 1000;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.flow-line {
+  stroke-dasharray: 20, 10;
+  animation: flow 2s linear infinite;
+}
+
+.flow-line-return {
+  stroke-dasharray: 20, 10;
+  animation: flowReturn 2s linear infinite;
+}
+
+.pressure-pulse {
+  animation: pressure-pulse 1.5s ease-in-out infinite;
+}
+
+.gauge-needle {
+  transform-origin: center;
+  animation: gauge-needle-rotate 2s ease-in-out infinite;
+}
+
+.pump-rotate {
+  transform-origin: center;
+  animation: pump-rotate 3s linear infinite;
+}
+
+.cylinder-animate {
+  animation: cylinder-extend 3s ease-in-out infinite;
+}
+
+.valve-animate {
+  animation: valve-spool 4s ease-in-out infinite;
+}
+
+.float-animation {
+  animation: float 5s ease-in-out infinite;
+}
+
+.glow-animation {
+  animation: glow 2s ease-in-out infinite;
+}
+
+/* Noise Texture Overlay */
+.noise-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.02;
+  z-index: 1000;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Glass Card Style - Matching Original */
+.glass-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  position: relative;
+}
+
+.glass-card:hover {
+  border-color: rgba(18, 214, 64, 0.4);
+  box-shadow: 0 0 30px rgba(18, 214, 64, 0.1);
+}
+
+/* Industrial Panel Style */
+.industrial-panel {
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.industrial-panel:hover {
+  border-color: rgba(18, 214, 64, 0.5);
+  box-shadow: 0 0 25px rgba(18, 214, 64, 0.15);
+}
+
+/* Skill Pill Style */
+.skill-pill {
+  display: inline-block;
+  padding: 6px 14px;
+  margin: 4px;
+  background: rgba(18, 214, 64, 0.1);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  transition: all 0.3s ease;
+}
+
+.skill-pill:hover {
+  background: rgba(18, 214, 64, 0.2);
+  border-color: var(--primary-green);
+  color: var(--primary-green);
+}
+
+/* Section divider */
+.section-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--primary-green), transparent);
+  opacity: 0.3;
+}
+
+/* Parallax Container */
+.parallax-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.parallax-bg {
+  position: absolute;
+  top: -20%;
+  left: 0;
+  width: 100%;
+  height: 140%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+/* Selection Color */
+::selection {
+  background: var(--primary-green);
+  color: var(--bg-main);
+}
+
+/* Background Grid Pattern */
+.bg-grid {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.03;
+  background-image: 
+    linear-gradient(var(--primary-green) 1px, transparent 1px),
+    linear-gradient(90deg, var(--primary-green) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+/* Animated Background Orbs */
+.orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(100px);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.orb-1 {
+  width: 400px;
+  height: 400px;
+  background: rgba(18, 214, 64, 0.15);
+  top: -100px;
+  right: -100px;
+  animation: float 8s ease-in-out infinite;
+}
+
+.orb-2 {
+  width: 300px;
+  height: 300px;
+  background: rgba(0, 212, 255, 0.1);
+  bottom: 20%;
+  left: -100px;
+  animation: float 10s ease-in-out infinite 2s;
+}
+
+.orb-3 {
+  width: 200px;
+  height: 200px;
+  background: rgba(18, 214, 64, 0.1);
+  top: 50%;
+  right: 10%;
+  animation: float 7s ease-in-out infinite 1s;
+}

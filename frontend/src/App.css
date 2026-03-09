@@ -1,0 +1,52 @@
+/* Main App Styles - Hydraulic Engineer Portfolio */
+
+.App {
+  min-height: 100vh;
+}
+
+/* Line clamp utility */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Smooth scroll snap for sections */
+@media (min-width: 768px) {
+  .scroll-snap-container {
+    scroll-snap-type: y proximity;
+  }
+  
+  .scroll-snap-section {
+    scroll-snap-align: start;
+  }
+}
+
+/* Focus states for accessibility */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid #12d640;
+  outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+  .noise-overlay,
+  nav,
+  .parallax-bg,
+  .orb,
+  .bg-grid {
+    display: none !important;
+  }
+  
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  
+  .glass-card {
+    border: 1px solid #ccc !important;
+    background: white !important;
+  }
+}
