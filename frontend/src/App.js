@@ -1056,7 +1056,7 @@ const ProjectsSection = () => {
   return (
     <section id="projects" className="py-24 sm:py-32 relative overflow-hidden" data-testid="projects-section">
       <div className="absolute inset-0 z-0">
-        <img src={HYDRAULIC_BG} alt="Hydraulic Equipment" className="w-full h-full object-cover opacity-15" />
+        <img src={HYDRAULIC_BG} alt="Hydraulic Equipment" className="w-full h-full object-cover opacity-15" loading="lazy" />
         <div className="absolute inset-0 bg-[#0a0a0a]/90" />
       </div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -1112,7 +1112,7 @@ const SkillsSection = () => {
   return (
     <section id="skills" className="py-24 sm:py-32 relative overflow-hidden" data-testid="skills-section">
       <div className="absolute inset-0 z-0">
-        <img src={HYDRAULIC_BG} alt="Hydraulic Equipment" className="w-full h-full object-cover opacity-20" />
+        <img src={HYDRAULIC_BG} alt="Hydraulic Equipment" className="w-full h-full object-cover opacity-20" loading="lazy" />
         <div className="absolute inset-0 bg-[#0a0a0a]/90" />
       </div>
 
