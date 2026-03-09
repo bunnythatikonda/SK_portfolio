@@ -586,6 +586,17 @@ const Navigation = () => {
                 {item}
               </motion.a>
             ))}
+            {/* Resume Link - Opens in new tab */}
+            <motion.a
+              href="/assets/resume/RESUME.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-mono text-sm text-[#12d640] hover:text-[#00ff55] transition-colors uppercase tracking-widest border border-[#12d640]/50 px-3 py-1 rounded hover:border-[#12d640] hover:bg-[#12d640]/10"
+              whileHover={{ y: -2, scale: 1.05 }}
+              data-testid="nav-resume"
+            >
+              Resume
+            </motion.a>
           </div>
 
           <button
@@ -616,6 +627,17 @@ const Navigation = () => {
                 {item}
               </a>
             ))}
+            {/* Resume Link for Mobile */}
+            <a
+              href="/assets/resume/RESUME.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block font-mono text-sm text-[#12d640] uppercase tracking-widest border border-[#12d640]/50 px-3 py-2 rounded text-center hover:bg-[#12d640]/10"
+              onClick={() => setIsOpen(false)}
+              data-testid="mobile-nav-resume"
+            >
+              Resume
+            </a>
           </div>
         </motion.div>
       )}
