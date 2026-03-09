@@ -143,11 +143,20 @@ I am eager to leverage my engineering expertise to further my professional growt
   }
 };
 
-// Background Images - Hydraulic Equipment Theme
+// Background Images - Hydraulic Equipment Theme (optimized with lazy loading)
 const HYDRAULIC_BG = "https://customer-assets.emergentagent.com/job_sreekanth-portfolio/artifacts/tsp1w9kd_unnamed.jpg";
 const HERO_BG = HYDRAULIC_BG;
 const EXPERIENCE_BG = HYDRAULIC_BG;
 const WIREFRAME_BG = HYDRAULIC_BG;
+
+// Preload critical images
+const preloadImages = () => {
+  const img = new Image();
+  img.src = HYDRAULIC_BG;
+};
+if (typeof window !== 'undefined') {
+  preloadImages();
+}
 
 // Hero Schematic without title (for background overlay)
 const HeroSchematicOverlay = ({ scrollProgress = 0 }) => {
