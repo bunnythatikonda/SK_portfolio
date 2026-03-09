@@ -1265,8 +1265,46 @@ const Footer = () => (
   </footer>
 );
 
+// Loading Screen Component
+const LoadingScreen = () => (
+  <div className="fixed inset-0 bg-[#0a0a0a] z-[9999] flex items-center justify-center">
+    <div className="text-center">
+      <motion.div
+        animate={{ rotate: 360 }}
+        transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+        className="w-16 h-16 border-4 border-[#12d640]/20 border-t-[#12d640] rounded-full mx-auto mb-4"
+      />
+      <motion.p
+        animate={{ opacity: [0.5, 1, 0.5] }}
+        transition={{ duration: 1.5, repeat: Infinity }}
+        className="text-[#12d640] font-mono text-sm"
+      >
+        Loading...
+      </motion.p>
+    </div>
+  </div>
+);
+
 // Main App Component
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Preload the background image
+    const img = new Image();
+    img.onload = () => setIsLoading(false);
+    img.onerror = () => setIsLoading(false);
+    img.src = HYDRAULIC_BG;
+    
+    // Fallback timeout - don't wait more than 3 seconds
+    const timeout = setTimeout(() => setIsLoading(false), 3000);
+    return () => clearTimeout(timeout);
+  }, []);
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
+
   return (
     <div className="App bg-[#0a0a0a] min-h-screen">
       <div className="noise-overlay" />
