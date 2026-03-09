@@ -5,11 +5,12 @@ import {
   Wrench, Activity, Zap, Layers, Cpu, Settings, 
   FileText, Mail, Linkedin, Github, ChevronDown,
   GraduationCap, Briefcase, Code, MapPin, Calendar,
-  ExternalLink, Menu, X
+  ExternalLink, Menu, X, Shield
 } from "lucide-react";
+import { usePortfolio } from "./context/PortfolioContext";
 
-// Portfolio Data
-const portfolioData = {
+// Default Portfolio Data (fallback when API returns empty)
+const defaultPortfolioData = {
   name: "Sreekanth Netha Thatikonda",
   title: "Hydraulic Systems Engineer",
   tagline: "Designing the future of Mobile Hydraulic Machines",
@@ -606,6 +607,15 @@ const Navigation = () => {
             >
               Resume
             </motion.a>
+            {/* Admin Link */}
+            <motion.a
+              href="/admin"
+              className="font-mono text-sm text-[#666] hover:text-[#00d4ff] transition-colors uppercase tracking-widest"
+              whileHover={{ y: -2 }}
+              data-testid="nav-admin"
+            >
+              <Shield size={16} />
+            </motion.a>
           </div>
 
           <button
@@ -647,6 +657,15 @@ const Navigation = () => {
             >
               Resume
             </a>
+            {/* Admin Link for Mobile */}
+            <a
+              href="/admin"
+              className="block font-mono text-sm text-[#666] hover:text-[#00d4ff] uppercase tracking-widest"
+              onClick={() => setIsOpen(false)}
+              data-testid="mobile-nav-admin"
+            >
+              Admin
+            </a>
           </div>
         </motion.div>
       )}
@@ -655,7 +674,7 @@ const Navigation = () => {
 };
 
 // Hero Section
-const HeroSection = () => {
+const HeroSection = ({ data }) => {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -696,10 +715,10 @@ const HeroSection = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           <p className="font-mono text-sm tracking-[0.3em] mb-4 uppercase gradient-text">
-            Hydraulic Systems Engineer
+            {data.title}
           </p>
           <h1 className="font-heading text-4xl sm:text-6xl lg:text-7xl font-medium uppercase tracking-tight text-white mb-6">
-            {portfolioData.name.split(' ').map((word, i) => (
+            {data.name.split(' ').map((word, i) => (
               <span key={i} className="block">
                 <motion.span
                   initial={{ opacity: 0, x: -50 }}
@@ -718,7 +737,7 @@ const HeroSection = () => {
             transition={{ delay: 0.8 }}
             className="text-[#aaa] text-lg sm:text-xl max-w-2xl mx-auto mb-8 font-light"
           >
-            {portfolioData.tagline}
+            {data.tagline}
           </motion.p>
 
           <motion.div
@@ -739,7 +758,7 @@ const HeroSection = () => {
               Get in Touch
             </motion.a>
             <motion.a
-              href={portfolioData.linkedin}
+              href={data.linkedin}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 border border-[#12d640] text-[#12d640] px-8 py-3 font-mono text-sm uppercase tracking-widest rounded-lg hover:bg-[#12d640]/10 transition-all"
@@ -796,7 +815,7 @@ const SectionHeader = ({ title, subtitle, align = "left" }) => (
 );
 
 // About Section
-const AboutSection = () => {
+const AboutSection = ({ data }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const { scrollYProgress } = useScroll({
@@ -827,7 +846,7 @@ const AboutSection = () => {
           >
             <SectionHeader title="About Me" subtitle="The Engineer" />
             <div className="space-y-6 text-[#aaa] leading-relaxed">
-              {portfolioData.about.split('\n\n').map((paragraph, i) => (
+              {data.about.split('\n\n').map((paragraph, i) => (
                 <motion.p
                   key={i}
                   initial={{ opacity: 0, y: 20 }}
@@ -876,7 +895,7 @@ const AboutSection = () => {
 };
 
 // Education Section
-const EducationSection = () => {
+const EducationSection = ({ data }) => {
   return (
     <section
       id="education"
@@ -887,9 +906,9 @@ const EducationSection = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <SectionHeader title="Education" subtitle="Academic Journey" align="center" />
         <div className="space-y-8">
-          {portfolioData.education.map((edu, index) => (
+          {data.education.map((edu, index) => (
             <motion.div
-              key={index}
+              key={edu.id || index}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -920,7 +939,7 @@ const EducationSection = () => {
                     </span>
                   </div>
                   <div className="flex flex-wrap gap-2">
-                    {edu.courses.map((course, i) => (
+                    {(edu.courses || []).map((course, i) => (
                       <span key={i} className="skill-pill">{course}</span>
                     ))}
                   </div>
@@ -935,7 +954,7 @@ const EducationSection = () => {
 };
 
 // Experience Section with Animated Timeline Line
-const ExperienceSection = () => {
+const ExperienceSection = ({ data }) => {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -983,9 +1002,9 @@ const ExperienceSection = () => {
           />
 
           <div className="space-y-12">
-            {portfolioData.experience.map((exp, index) => (
+            {data.experience.map((exp, index) => (
               <motion.div
-                key={index}
+                key={exp.id || index}
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
@@ -1033,7 +1052,7 @@ const ExperienceSection = () => {
                     </div>
 
                     <ul className={`space-y-2 ${index % 2 === 1 ? 'lg:text-left' : ''}`}>
-                      {exp.highlights.map((highlight, i) => (
+                      {(exp.highlights || []).map((highlight, i) => (
                         <li key={i} className="text-[#aaa] text-sm flex gap-2">
                           <span className="text-[#12d640] flex-shrink-0">&#8226;</span>
                           {highlight}
@@ -1052,7 +1071,7 @@ const ExperienceSection = () => {
 };
 
 // Projects Section
-const ProjectsSection = () => {
+const ProjectsSection = ({ data }) => {
   return (
     <section id="projects" className="py-24 sm:py-32 relative overflow-hidden" data-testid="projects-section">
       <div className="absolute inset-0 z-0">
@@ -1062,9 +1081,9 @@ const ProjectsSection = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <SectionHeader title="Projects" subtitle="Engineering Work" align="center" />
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {portfolioData.projects.map((project, index) => (
+          {data.projects.map((project, index) => (
             <motion.a
-              key={index}
+              key={project.id || index}
               href={project.link}
               target="_blank"
               rel="noopener noreferrer"
@@ -1084,7 +1103,7 @@ const ProjectsSection = () => {
               </h3>
               <p className="text-[#aaa] text-sm mb-4 line-clamp-2">{project.description}</p>
               <div className="flex flex-wrap gap-2 mb-4">
-                {project.tags.map((tag, i) => (
+                {(project.tags || []).map((tag, i) => (
                   <span key={i} className="skill-pill text-xs">{tag}</span>
                 ))}
               </div>
@@ -1100,13 +1119,13 @@ const ProjectsSection = () => {
 };
 
 // Skills Section
-const SkillsSection = () => {
+const SkillsSection = ({ data }) => {
   const skillCategories = [
-    { title: "Languages", icon: Code, skills: portfolioData.skills.languages },
-    { title: "Design & Simulation", icon: Settings, skills: portfolioData.skills.design },
-    { title: "Databases & PLM", icon: Cpu, skills: portfolioData.skills.databases },
-    { title: "Libraries", icon: Layers, skills: portfolioData.skills.libraries },
-    { title: "Tools", icon: Wrench, skills: portfolioData.skills.tools }
+    { title: "Languages", icon: Code, skills: data.skills.languages },
+    { title: "Design & Simulation", icon: Settings, skills: data.skills.design },
+    { title: "Databases & PLM", icon: Cpu, skills: data.skills.databases },
+    { title: "Libraries", icon: Layers, skills: data.skills.libraries },
+    { title: "Tools", icon: Wrench, skills: data.skills.tools }
   ];
 
   return (
@@ -1138,7 +1157,7 @@ const SkillsSection = () => {
                 </h3>
               </div>
               <div className="flex flex-wrap gap-2">
-                {category.skills.map((skill, i) => (
+                {(category.skills || []).map((skill, i) => (
                   <motion.span
                     key={i}
                     initial={{ opacity: 0, scale: 0.8 }}
@@ -1160,7 +1179,7 @@ const SkillsSection = () => {
 };
 
 // Contact Section
-const ContactSection = () => {
+const ContactSection = ({ data }) => {
   return (
     <section id="contact" className="py-24 sm:py-32 relative overflow-hidden" data-testid="contact-section">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -1178,7 +1197,7 @@ const ContactSection = () => {
 
           <div className="grid sm:grid-cols-3 gap-6 mb-12">
             <motion.a
-              href={`mailto:${portfolioData.email}`}
+              href={`mailto:${data.email}`}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -1189,11 +1208,11 @@ const ContactSection = () => {
             >
               <Mail className="text-[#12d640] mx-auto mb-3 group-hover:scale-110 transition-transform" size={28} />
               <p className="font-mono text-xs text-[#666] uppercase tracking-wider mb-1">Email</p>
-              <p className="text-white text-sm truncate">{portfolioData.email}</p>
+              <p className="text-white text-sm truncate">{data.email}</p>
             </motion.a>
 
             <motion.a
-              href={portfolioData.linkedin}
+              href={data.linkedin}
               target="_blank"
               rel="noopener noreferrer"
               initial={{ opacity: 0, y: 30 }}
@@ -1219,12 +1238,12 @@ const ContactSection = () => {
             >
               <MapPin className="text-[#12d640] mx-auto mb-3" size={28} />
               <p className="font-mono text-xs text-[#666] uppercase tracking-wider mb-1">Location</p>
-              <p className="text-white text-sm">{portfolioData.location}</p>
+              <p className="text-white text-sm">{data.location}</p>
             </motion.div>
           </div>
 
           <motion.a
-            href={`mailto:${portfolioData.email}`}
+            href={`mailto:${data.email}`}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -1245,18 +1264,18 @@ const ContactSection = () => {
 };
 
 // Footer
-const Footer = () => (
+const Footer = ({ data }) => (
   <footer className="py-8 border-t border-[#12d640]/20" data-testid="footer">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
         <p className="font-mono text-xs text-[#666]">
-          &copy; 2022 {portfolioData.name}. All rights reserved.
+          &copy; 2022 {data.name}. All rights reserved.
         </p>
         <div className="flex items-center gap-6">
-          <a href={portfolioData.linkedin} target="_blank" rel="noopener noreferrer" className="text-[#666] hover:text-[#12d640] transition-colors" data-testid="footer-linkedin">
+          <a href={data.linkedin} target="_blank" rel="noopener noreferrer" className="text-[#666] hover:text-[#12d640] transition-colors" data-testid="footer-linkedin">
             <Linkedin size={18} />
           </a>
-          <a href={`mailto:${portfolioData.email}`} className="text-[#666] hover:text-[#12d640] transition-colors" data-testid="footer-email">
+          <a href={`mailto:${data.email}`} className="text-[#666] hover:text-[#12d640] transition-colors" data-testid="footer-email">
             <Mail size={18} />
           </a>
         </div>
@@ -1285,9 +1304,28 @@ const LoadingScreen = () => (
   </div>
 );
 
+// Helper to merge API data with defaults
+function mergePortfolioData(apiData, defaults) {
+  return {
+    ...defaults,
+    about: apiData.about || defaults.about,
+    education: apiData.education?.length > 0 ? apiData.education : defaults.education,
+    experience: apiData.experience?.length > 0 ? apiData.experience : defaults.experience,
+    projects: apiData.projects?.length > 0 ? apiData.projects : defaults.projects,
+    skills: {
+      languages: apiData.skills?.languages?.length > 0 ? apiData.skills.languages : defaults.skills.languages,
+      design: apiData.skills?.design?.length > 0 ? apiData.skills.design : defaults.skills.design,
+      databases: apiData.skills?.databases?.length > 0 ? apiData.skills.databases : defaults.skills.databases,
+      libraries: apiData.skills?.libraries?.length > 0 ? apiData.skills.libraries : defaults.skills.libraries,
+      tools: apiData.skills?.tools?.length > 0 ? apiData.skills.tools : defaults.skills.tools,
+    }
+  };
+}
+
 // Main App Component
 function App() {
   const [isLoading, setIsLoading] = useState(true);
+  const { portfolioData: apiData, loading: dataLoading } = usePortfolio();
 
   useEffect(() => {
     // Preload the background image
@@ -1301,7 +1339,10 @@ function App() {
     return () => clearTimeout(timeout);
   }, []);
 
-  if (isLoading) {
+  // Merge API data with defaults (use API data if available, else use defaults)
+  const portfolioData = mergePortfolioData(apiData, defaultPortfolioData);
+
+  if (isLoading || dataLoading) {
     return <LoadingScreen />;
   }
 
@@ -1316,21 +1357,21 @@ function App() {
       <Navigation />
       
       <main>
-        <HeroSection />
-        <AboutSection />
+        <HeroSection data={portfolioData} />
+        <AboutSection data={portfolioData} />
         <div className="section-divider" />
-        <EducationSection />
+        <EducationSection data={portfolioData} />
         <div className="section-divider" />
-        <ExperienceSection />
+        <ExperienceSection data={portfolioData} />
         <div className="section-divider" />
-        <ProjectsSection />
+        <ProjectsSection data={portfolioData} />
         <div className="section-divider" />
-        <SkillsSection />
+        <SkillsSection data={portfolioData} />
         <div className="section-divider" />
-        <ContactSection />
+        <ContactSection data={portfolioData} />
       </main>
       
-      <Footer />
+      <Footer data={portfolioData} />
     </div>
   );
 }

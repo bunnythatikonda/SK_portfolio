@@ -1,7 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "@/index.css";
 import App from "@/App";
+import AdminPanel from "@/pages/AdminPanel";
+import { PortfolioProvider } from "@/context/PortfolioContext";
 
 // Error Boundary Component
 class ErrorBoundary extends React.Component {
@@ -61,7 +64,14 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <ErrorBoundary>
-      <App />
+      <BrowserRouter>
+        <PortfolioProvider>
+          <Routes>
+            <Route path="/" element={<App />} />
+            <Route path="/admin" element={<AdminPanel />} />
+          </Routes>
+        </PortfolioProvider>
+      </BrowserRouter>
     </ErrorBoundary>
   </React.StrictMode>,
 );
